@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"/>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"/>
+<h1 class="text-lg-center mb-5">Add Account Role</h1>
+<div class="container">
+    <form class="needs-validation" novalidate method="POST"
+          th:action="@{/account/change/role}">
+
+        <div class="form-row justify-content-center">
+            <div class="col-md-4 mb-3">
+
+
+                <label for="email">Account</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bi bi-envelope" id="inputGroupPrepend"></span>
+                    </div>
+                    <input type="email" class="form-control" id="email" name="email"
+                           placeholder="Enter account username"
+                           aria-describedby="inputGroupPrepend" required>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4 mb-3">
+            <label for="role">Role</label>
+
+            <select th:field="*{role}" class="form-control" id="role" required>
+                <option th:each="r : ${roles}" th:value="{r}" th:text="${r}"></option>
+            </select>
+
+            <a class="text-danger text-sm-center position-absolute"
+               th:if="${notFound}">Account not found Try again
+            </a>
+            <a class="text-danger text-sm-center position-absolute"
+               th:if="${alreadyInThisRole}">This account already has this role! Try again
+            </a>
+            <a class="text-danger text-sm-center position-absolute"
+               th:if="${success}">Role added to the account!
+            </a>
+        </div>
+
+
+        <div class="text-center mt-3">
+            <button class="btn btn-primary" type="submit">Add Role</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

@@ -7,6 +7,7 @@ import me.inc.bookingapp.model.entity.enums.Role;
 import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -21,9 +21,10 @@ public class AdminRestController {
     }
 
     @GetMapping("/all-users")
-    @ResponseBody
     public List<Account> allUsers() {
         return this.adminService.getAllUsers();
     }
+
+
 
 }
