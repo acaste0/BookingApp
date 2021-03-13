@@ -36,6 +36,8 @@ public class Account extends BaseEntity {
     private String address;
     @Column
     private String city;
+    @Column
+    private String phone;
     @Column(name = "zip_code")
     private String zipCode;
 
@@ -130,6 +132,15 @@ public class Account extends BaseEntity {
 
     public Account setAccountRoles(List<AccountRole> accountRoles) {
         this.accountRoles = accountRoles;
+        return this;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public Account setPhone(String phone) {
+        this.phone = phone;
         return this;
     }
 }

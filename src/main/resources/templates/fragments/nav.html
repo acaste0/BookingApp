@@ -56,8 +56,11 @@
                         Admin Tools
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/admin/role/change">Change User Role</a>
-                        <a class="dropdown-item" href="/admin/listing/stays">Delete Stay Listing</a>
+                        <a class="dropdown-item" href="/admin/role/add">Add Role to Account</a>
+                        <a class="dropdown-item" href="/admin/role/remove">Remove Role from Account</a>
+                        <a class="dropdown-item" href="/admin/account/edit">Edit Account</a>
+                        <a class="dropdown-item" href="/admin/listing/stays/edit">Edit Stay Listing</a>
+                        <a class="dropdown-item" href="/admin/listing/stays/delete">Delete Stay Listing</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
@@ -65,13 +68,12 @@
                 <!--                Business Accounts Logic-->
                 <li class="nav-item active" style="cursor: pointer"
                     sec:authorize="isAuthenticated() && hasAuthority('TYPE_BUSINESS')">
-                    <i class="material-icons pt-2">settings</i>
                     <a class="nav-link" th:href="@{/account/view}">Add Listing</a>
                 </li>
 
                 <li class="nav-item active" style="cursor: pointer"
                     sec:authorize="isAuthenticated()">
-                    <a class="nav-link bi bi-person-lines-fill" th:href="@{/account/view/{id}(id=${#authentication.name})}">Profile</a>
+                    <a class="nav-link bi bi-person-lines-fill" th:href="@{/account/view}">Profile</a>
                 </li>
 
                 <li class="nav-item active" style="cursor: pointer"

@@ -16,6 +16,7 @@ public class AccountServiceModel {
     private List<Role> accountRoles = new ArrayList<>();
     private String username;
     private String email;
+    private String phone;
     private String password;
     private String firstName;
     private String middleName;
@@ -123,6 +124,15 @@ public class AccountServiceModel {
 
     public AccountServiceModel setAccountRoles(List<Role> accountRoles) {
         this.accountRoles = accountRoles;
+        return this;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public AccountServiceModel setPhone(String phone) {
+        this.phone = phone;
         return this;
     }
 }

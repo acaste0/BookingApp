@@ -5,12 +5,14 @@ import me.inc.bookingapp.model.entity.enums.AccountType;
 public class AccountViewModel {
 
     private String accountType;
+    private String username;
     private String firstName;
     private String lastName;
     private String email;
     private String phone;
     private String city;
     private String address;
+    private String zipCode;
 
     public String getFirstName() {
         return firstName;
@@ -72,6 +74,24 @@ public class AccountViewModel {
 
     public AccountViewModel setAccountType(String accountType) {
         this.accountType = accountType;
+        return this;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public AccountViewModel setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public AccountViewModel setZipCode(String zipCode) {
+        this.zipCode = zipCode;
         return this;
     }
 }

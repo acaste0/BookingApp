@@ -25,6 +25,7 @@ public class AppErrorController implements ErrorController {
                 return "error-500";
             }
         }
+
         return "error";
     }
 
