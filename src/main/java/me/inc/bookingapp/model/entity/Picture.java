@@ -13,10 +13,6 @@ public class Picture extends BaseEntity {
     private String pictureUrl;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "added_from")
-    private Account addedFrom;
-
-    @ManyToOne(cascade = CascadeType.ALL)
     private StayListing listing;
 
     public Picture() {
@@ -29,15 +25,6 @@ public class Picture extends BaseEntity {
     public Picture setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
         return this;
-    }
-
-    public Picture setAddedFrom(Account addedFrom) {
-        this.addedFrom = addedFrom;
-        return this;
-    }
-
-    public Account getAddedFrom() {
-        return addedFrom;
     }
 
     public StayListing getListing() {

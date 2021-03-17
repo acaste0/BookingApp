@@ -1,42 +1,23 @@
-package me.inc.bookingapp.model.entity;
+package me.inc.bookingapp.model.service;
 
+import me.inc.bookingapp.model.entity.Picture;
 import me.inc.bookingapp.model.entity.base.BaseListing;
 import me.inc.bookingapp.model.entity.enums.ListingType;
 import me.inc.bookingapp.model.entity.enums.StayType;
 import me.inc.bookingapp.model.entity.properties.StayProperties;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
-@Entity
-@Table(name = "stay_listings")
-public class StayListing extends BaseListing {
+public class StayListingServiceModel extends BaseListing {
 
-    @Column(name = "listing_type")
-    @Enumerated(EnumType.STRING)
     private ListingType listingType = ListingType.STAY;
-
-    @Column
-    private String country;
-    @Column
-    private String city;
-    @Column
-    private String address;
-
-    @Column(name = "stay_type")
-    @Enumerated(EnumType.STRING)
     private StayType stayType;
-
-    @Column(name = "availability_left")
+    private String country;
+    private String city;
+    private String address;
     private int availabilityLeft;
-
-    @OneToMany(mappedBy = "listing", cascade = CascadeType.ALL)
     private List<Picture> pictures;
-
-
-    @OneToOne(mappedBy = "listing", cascade = CascadeType.ALL)
     private StayProperties listingProperties;
 
 
@@ -44,7 +25,7 @@ public class StayListing extends BaseListing {
         return listingType;
     }
 
-    public StayListing setListingType(ListingType listingType) {
+    public StayListingServiceModel setListingType(ListingType listingType) {
         this.listingType = listingType;
         return this;
     }
@@ -53,7 +34,7 @@ public class StayListing extends BaseListing {
         return stayType;
     }
 
-    public StayListing setStayType(StayType stayType) {
+    public StayListingServiceModel setStayType(StayType stayType) {
         this.stayType = stayType;
         return this;
     }
@@ -62,13 +43,18 @@ public class StayListing extends BaseListing {
         return availabilityLeft;
     }
 
-    public StayListing setAvailabilityLeft(int availabilityLeft) {
+    public StayListingServiceModel setAvailabilityLeft(int availabilityLeft) {
         this.availabilityLeft = availabilityLeft;
         return this;
     }
 
-    public StayListing setPictures(List<Picture> pictures) {
-        this.pictures = pictures;
+
+    public StayProperties getListingProperties() {
+        return listingProperties;
+    }
+
+    public StayListingServiceModel setListingProperties(StayProperties listingProperties) {
+        this.listingProperties = listingProperties;
         return this;
     }
 
@@ -76,12 +62,8 @@ public class StayListing extends BaseListing {
         return pictures;
     }
 
-    public StayProperties getListingProperties() {
-        return listingProperties;
-    }
-
-    public StayListing setListingProperties(StayProperties listingProperties) {
-        this.listingProperties = listingProperties;
+    public StayListingServiceModel setPictures(List<Picture> pictures) {
+        this.pictures = pictures;
         return this;
     }
 
@@ -89,7 +71,7 @@ public class StayListing extends BaseListing {
         return country;
     }
 
-    public StayListing setCountry(String country) {
+    public StayListingServiceModel setCountry(String country) {
         this.country = country;
         return this;
     }
@@ -98,7 +80,7 @@ public class StayListing extends BaseListing {
         return city;
     }
 
-    public StayListing setCity(String city) {
+    public StayListingServiceModel setCity(String city) {
         this.city = city;
         return this;
     }
@@ -107,7 +89,7 @@ public class StayListing extends BaseListing {
         return address;
     }
 
-    public StayListing setAddress(String address) {
+    public StayListingServiceModel setAddress(String address) {
         this.address = address;
         return this;
     }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+
+
+<div class="container">
+<h1 class="text-center mb-3 font-weight-bold text-capitalize">My Listings</h1>
+    <div th:if="${successListingAdd}" class="alert alert-success">
+        <strong>Success!</strong> You have added new listing!
+    </div>
+<hr>
+    <div th:each="st : ${stayListings}">
+        <div class="card m-2">
+            <h4 class="card-header text-center" th:text="*{st.listingTitle}"></h4>
+            <div class="card-body">
+                <img height="100" class="float-left mr-3" th:if="*{st.pictures.isEmpty()}" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/600px-No_image_available.svg.png">
+                <img height="100" class="float-left mr-3" th:unless="*{st.pictures.isEmpty()}" th:src="*{st.pictures.get(0).pictureUrl}">
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                <h6 class="card-text"  th:text="'Stay Type: '+*{st.stayType}"></h6>
+                <h6 class="card-text"  th:text="'Availability left: '+*{st.availabilityLeft}"></h6>
+                <h6 class="card-title"  th:text="'Added on ' + ${#temporals.format(st.createdOn, 'dd-MM-yyyy HH:mm:ss')}"></h6>
+                <a th:href="@{'/listing/edit/' + *{st.id}}" class="btn btn-outline-dark float-right">Edit</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

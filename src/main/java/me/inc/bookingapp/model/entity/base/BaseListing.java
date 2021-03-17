@@ -9,14 +9,11 @@ import java.time.Instant;
 @MappedSuperclass
 public abstract class BaseListing extends BaseEntity {
 
-    @Column(name = "listing_title")
+    @Column(name = "listing_title", unique = true)
     private String listingTitle;
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = Account.class)
+    @ManyToOne
     @JoinColumn(name = "added_from")
     private Account addedFrom;
-    @Column(name = "added_on")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Instant addedOn;
     @Column(name = "is_available")
     private boolean isAvailable;
 
@@ -39,15 +36,6 @@ public abstract class BaseListing extends BaseEntity {
 
     public BaseListing setAddedFrom(Account addedFrom) {
         this.addedFrom = addedFrom;
-        return this;
-    }
-
-    public Instant getAddedOn() {
-        return addedOn;
-    }
-
-    public BaseListing setAddedOn(Instant addedOn) {
-        this.addedOn = addedOn;
         return this;
     }
 

@@ -42,40 +42,50 @@ public class AccountController {
     }
 
 
-
-
-
     @GetMapping("/registration")
     public String registerGet(Model model) {
         return "register";
     }
 
+    @GetMapping("/listings")
+    public ModelAndView accountListings(Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("stayListings",
+                accountService.getAllAccountListings(principal.getName()));
+        mav.setViewName("account-listings");
+        return mav;
+    }
+
     @GetMapping("/edit")
-    public ModelAndView accountEdit(Principal principal) {
+    public ModelAndView accountEdit(Model model, Principal principal) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("accountView", accountView(principal.getName()));
-        modelAndView.addObject("accountEditForm", accountEditBinding(principal.getName()));
+        if (!model.containsAttribute("accountEditForm"))
+            modelAndView.addObject("accountEditForm", accountEditBinding(principal.getName()));
         modelAndView.setViewName("account-edit");
 
         return modelAndView;
     }
 
     @PostMapping("/edit")
-    public ModelAndView accountEditConfirm(@Valid AccountEditBinding accountEditBinding,
+    public ModelAndView accountEditConfirm(@Valid AccountEditBinding accountEditForm,
                                            BindingResult bindingResult,
                                            RedirectAttributes redirectAttributes,
                                            Principal principal) {
         ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("accountEditBinding", accountEditBinding);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.accountEditBinding", bindingResult);
+            redirectAttributes.addFlashAttribute("accountEditForm", accountEditForm);
+            redirectAttributes
+                    .addFlashAttribute("org.springframework.validation.BindingResult.accountEditForm",
+                            bindingResult);
+
 
             modelAndView.setViewName("redirect:/account/edit");
             return modelAndView;
         }
 
-        accountService.editAccount(principal.getName(), accountEditBinding);
+        accountService.editAccount(principal.getName(), accountEditForm);
         redirectAttributes.addFlashAttribute("successAccountEdit", true);
         modelAndView.setViewName("redirect:/account/view");
         return modelAndView;
@@ -134,7 +144,6 @@ public class AccountController {
         modelAndView.setViewName("redirect:/account/login");
         return modelAndView;
     }
-
 
 
     @ModelAttribute("types")

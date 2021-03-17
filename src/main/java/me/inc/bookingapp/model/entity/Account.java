@@ -2,6 +2,7 @@ package me.inc.bookingapp.model.entity;
 
 
 import me.inc.bookingapp.model.entity.base.BaseEntity;
+import me.inc.bookingapp.model.entity.base.BaseListing;
 import me.inc.bookingapp.model.entity.enums.AccountType;
 import me.inc.bookingapp.model.entity.enums.Role;
 import org.springframework.security.core.userdetails.User;
@@ -14,8 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "accounts")
 public class Account extends BaseEntity {
-
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<AccountRole> accountRoles = new ArrayList<>();
@@ -40,6 +39,8 @@ public class Account extends BaseEntity {
     private String phone;
     @Column(name = "zip_code")
     private String zipCode;
+    @OneToMany(mappedBy = "addedFrom")
+    private List<StayListing> stayListings;
 
 
     public Account() {
@@ -141,6 +142,15 @@ public class Account extends BaseEntity {
 
     public Account setPhone(String phone) {
         this.phone = phone;
+        return this;
+    }
+
+    public List<StayListing> getStayListings() {
+        return stayListings;
+    }
+
+    public Account setStayListings(List<StayListing> stayListings) {
+        this.stayListings = stayListings;
         return this;
     }
 }

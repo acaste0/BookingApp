@@ -3,12 +3,15 @@ package me.inc.bookingapp.service.impl;
 import me.inc.bookingapp.model.binding.AccountEditBinding;
 import me.inc.bookingapp.model.entity.Account;
 import me.inc.bookingapp.model.entity.AccountRole;
+import me.inc.bookingapp.model.entity.StayListing;
 import me.inc.bookingapp.model.entity.enums.Role;
 import me.inc.bookingapp.model.service.AccountServiceModel;
 import me.inc.bookingapp.model.view.AccountViewModel;
+import me.inc.bookingapp.model.view.StayListingView;
 import me.inc.bookingapp.repository.AccountRepository;
 import me.inc.bookingapp.repository.AccountRoleRepository;
 import me.inc.bookingapp.service.AccountService;
+import me.inc.bookingapp.service.StayListingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,8 +21,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -55,7 +60,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-
     private List<AccountRole> setAccountRoles() {
 
         AccountRole admin = accountRoleRepository.getByRole(Role.ADMIN);
@@ -85,7 +89,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void editAccount(String name, AccountEditBinding map) {
         Account account = accountRepository.getAccountByUsername(name);
-        modelMapper.map(map,account);
+        modelMapper.map(map, account);
         this.accountRepository.save(account);
         loadAndSave(account);
     }
@@ -97,12 +101,28 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new UsernameNotFoundException("Account not found")), AccountServiceModel.class);
     }
 
+    @Override
+    public Account getAccountEntity(String username) {
+        return this.accountRepository.getAccountByUsername(username);
+    }
+
+    @Override
+    public List<StayListingView> getAllAccountListings(String username) {
+        Account account = accountRepository.getAccountByUsername(username);
+        return account.getStayListings().stream().
+                map(l -> modelMapper.map(l, StayListingView.class)).
+                collect(Collectors.toList());
+
+    }
+
     private void loadAndSave(Account acc) {
-        UserDetails userDetails = appAccountService.loadUserByUsername(acc.getUsername());
+        UserDetails userDetails = appAccountService.loadUserByUsername(acc.getEmail());
 
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(userDetails, acc.getPassword(), userDetails.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
+
+
 }

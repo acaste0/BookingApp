@@ -1,8 +1,13 @@
 package me.inc.bookingapp.service;
 
 import me.inc.bookingapp.model.binding.AccountEditBinding;
+import me.inc.bookingapp.model.entity.Account;
+import me.inc.bookingapp.model.entity.StayListing;
 import me.inc.bookingapp.model.service.AccountServiceModel;
 import me.inc.bookingapp.model.view.AccountViewModel;
+import me.inc.bookingapp.model.view.StayListingView;
+
+import java.util.List;
 
 public interface AccountService {
 
@@ -17,4 +22,8 @@ public interface AccountService {
     void editAccount(String name, AccountEditBinding map);
 
     AccountServiceModel getAccount(String username);
+
+    Account getAccountEntity(String username);
+
+    List<StayListingView> getAllAccountListings(String username);
 }

@@ -3,20 +3,18 @@ package me.inc.bookingapp.model.binding;
 import me.inc.bookingapp.model.entity.enums.AccountType;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Email;
-
 public class AccountEditBinding {
 
     private AccountType accountType;
-    @Length(min = 3, max = 20)
+    @Length(min = 3, max = 20, message = "Required length is minimum 3 characters")
     private String firstName;
-    @Length(min = 3, max =20)
+    @Length(min = 3, max =20, message = "Required length is minimum 3 characters")
     private String lastName;
-    @Length(min =5, max = 30)
+    @Length(min =5, max = 30, message = "Address must contain more than 5 characters")
     private String address;
-    @Length(min = 5)
+    @Length(min = 5, message = "Phone number must contain more than 5 characters")
     private String phone;
-    @Length(min = 3)
+    @Length(min = 3, message = "City name must be more than 3 characters")
     private String city;
     private String zipCode;
 

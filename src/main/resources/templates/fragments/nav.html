@@ -27,7 +27,7 @@
 
                 <i class="material-icons pt-2 ml-4">hotel</i>
                 <li class="nav-item active mr-3">
-                    <a class="nav-link" href="/stay/all">Stay</a>
+                    <a class="nav-link" href="/stay">Stay</a>
                 </li>
                 <i00 class="material-icons pt-2">train</i00>
                 <li class="nav-item active mr-3">
@@ -68,7 +68,9 @@
                 <!--                Business Accounts Logic-->
                 <li class="nav-item active" style="cursor: pointer"
                     sec:authorize="isAuthenticated() && hasAuthority('TYPE_BUSINESS')">
-                    <a class="nav-link" th:href="@{/account/view}">Add Listing</a>
+                    <th:block th:include="~{modal/listing-modal}"></th:block>
+                    <a class="nav-link" data-target="#listingModal"
+                       data-toggle="modal" href="">Add Listing</a>
                 </li>
 
                 <li class="nav-item active" style="cursor: pointer"

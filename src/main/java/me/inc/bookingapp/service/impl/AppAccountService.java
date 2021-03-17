@@ -27,7 +27,6 @@ public class AppAccountService implements UserDetailsService {
         Account account = accountRepository.findByEmail(username
         ).orElseThrow(() -> new UsernameNotFoundException("User with name " + username + " was not found!"));
 
-
         return mapToUserDetails(account);
     }
 
@@ -45,4 +44,5 @@ public class AppAccountService implements UserDetailsService {
                 account.getPassword(),
                 authorities);
     }
+
 }

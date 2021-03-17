@@ -4,9 +4,6 @@
 
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
-          integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="/css/stays.css">
 
 </head>
 <body>
@@ -30,7 +27,8 @@
                 <div class="widget">
                     <div class="widget-title widget-collapse">
                         <h6>Price per night</h6>
-                        <a class="ml-auto" data-toggle="collapse" href="#dateposted" role="button" aria-expanded="false" aria-controls="dateposted"> <i class="fas fa-chevron-down"></i> </a>
+                        <a class="ml-auto" data-toggle="collapse" href="#dateposted" role="button" aria-expanded="false"
+                           aria-controls="dateposted"> <i class="fas fa-chevron-down"></i> </a>
                     </div>
                     <div class="collapse show" id="dateposted">
                         <div class="widget-content">
@@ -60,7 +58,8 @@
                         <div class="form-group mb-0">
                             <label class="justify-content-start mr-2">Sort by :</label>
                             <div class="short-by">
-                                <select class="form-control basic-select select2-hidden-accessible" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                <select class="form-control basic-select select2-hidden-accessible" data-select2-id="1"
+                                        tabindex="-1" aria-hidden="true">
                                     <option data-select2-id="3">Newest</option>
                                     <option>Oldest</option>
                                 </select>
@@ -69,43 +68,29 @@
                     </form>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-6 col-lg-4 mb-4">
-                    <div class="candidate-list candidate-grid">
-                        <div class="candidate-list-image">
-                            <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
-                        </div>
-                        <div class="candidate-list-details">
-                            <div class="candidate-list-info">
-                                <div class="candidate-list-title">
-                                    <h5><a href="candidate-detail.html">Rafael Briggs</a></h5>
-                                </div>
-                                <div class="candidate-list-option">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fas fa-filter pr-1"></i>Recruitment Consultancy</li>
-                                        <li><i class="fas fa-map-marker-alt pr-1"></i>Haines City, FL 33844</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="candidate-list-favourite-time">
-                                <a class="candidate-list-favourite order-2" href="#"><i class="far fa-heart"></i></a>
-                                <span class="candidate-list-time order-1"><i class="far fa-clock pr-1"></i>1M ago</span>
-                            </div>
-                        </div>
+
+            <div th:each="st : ${stayListings}">
+                <div class="card m-2">
+                    <h5 class="card-header">Featured</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
                 </div>
-
             </div>
+
             <div class="row">
                 <div class="col-12 text-center mt-4 mt-sm-5">
                     <ul class="pagination justify-content-center mb-0">
-                        <li class="page-item disabled"> <span class="page-link">Prev</span> </li>
-                        <li class="page-item active" aria-current="page"><span class="page-link">1 </span> <span class="sr-only">(current)</span></li>
+                        <li class="page-item disabled"><span class="page-link">Prev</span></li>
+                        <li class="page-item active" aria-current="page"><span class="page-link">1 </span> <span
+                                class="sr-only">(current)</span></li>
                         <li class="page-item"><a class="page-link" href="#">2</a></li>
                         <li class="page-item"><a class="page-link" href="#">3</a></li>
                         <li class="page-item"><a class="page-link" href="#">...</a></li>
                         <li class="page-item"><a class="page-link" href="#">25</a></li>
-                        <li class="page-item"> <a class="page-link" href="#">Next</a> </li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
                 </div>
             </div>
