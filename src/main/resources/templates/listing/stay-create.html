@@ -39,6 +39,7 @@
                 <input th:field="*{listingType}" th:value="*{listingType}" class="form-control" id="listingType"
                        disabled>
             </div>
+
             <div class="col-md-4 mb-3">
                 <label for="stayType">Stay Type</label>
                 <select th:field="*{stayType}" class="form-control" id="stayType">
@@ -59,6 +60,9 @@
                            id="listingTitle" placeholder="Title for your listing"
                            aria-describedby="inputGroupPrepend" required>
                 </div>
+                <small th:if="${titleExist}" class="text-danger">This listing title is already used!</small>
+                <small th:if="${#fields.hasErrors('listingTitle')}" th:errors="*{listingTitle}"
+                       class="text-danger"></small>
             </div>
             <div class="col-md-4 mb-3">
                 <label for="locationCountry">Location Country</label>
@@ -68,9 +72,7 @@
                             id="locationCountry"
                             aria-describedby="inputGroupPrepend" required>
                         <option th:each="c : ${allCountries}"
-                                th:value="c" th:text="${c}"></option>
-<!--                        <option th:each="c : ${#locale.getISOCountries()}"-->
-<!--                                th:value="c" th:text="${c}"></option>-->
+                                th:value="${c}" th:text="${c}"></option>
                     </select>
                 </div>
             </div>
@@ -85,10 +87,10 @@
                     <input th:field="*{city}" type="text" class="form-control"
                            id="locationCity" placeholder="Enter location city"
                            aria-describedby="inputGroupPrepend2" required>
-                    <span th:if="${#fields.hasErrors('city')}" class="text-danger form-text text-sm">
-                            Enter valid city
-                        </span>
                 </div>
+                <small th:if="${#fields.hasErrors('city')}"
+                       class="text-danger" th:errors="*{city}"></small>
+
             </div>
             <div class="col-md-4 mb-3">
                 <label for="locationAddress">Location Address</label>
@@ -96,10 +98,9 @@
                     <input th:field="*{address}" type="text" class="form-control"
                            id="locationAddress" placeholder="Enter location address"
                            aria-describedby="inputGroupPrepend2" required>
-                    <span th:if="${#fields.hasErrors('address')}" class="text-danger form-text text-sm">
-                            Enter valid location address
-                        </span>
                 </div>
+                <small th:if="${#fields.hasErrors('address')}"
+                       class="text-danger" th:errors="*{address}"></small>
             </div>
         </div>
 
@@ -112,10 +113,24 @@
                     <input th:field="*{availabilityLeft}" type="number" class="form-control"
                            id="availability" placeholder="0"
                            aria-describedby="inputGroupPrepend2" required>
-                    <span th:if="${#fields.hasErrors('availabilityLeft')}" class="text-danger form-text text-sm">
-                            Availability must be positive number
-                        </span>
                 </div>
+                <small th:if="${#fields.hasErrors('availabilityLeft')}"
+                       class="text-danger" th:errors="*{availabilityLeft}"></small>
+            </div>
+        </div>
+
+        <div class="form-row justify-content-center">
+
+
+            <div class="col-md-4 mb-3">
+                <label for="description">Description</label>
+                <div class="input-group">
+                    <textarea rows="5" th:field="*{description}" type="text-area" class="form-control"
+                              id="description" placeholder="Describe the place"
+                              aria-describedby="inputGroupPrepend2" required></textarea>
+                </div>
+                <small th:if="${#fields.hasErrors('description')}"
+                       class="text-danger" th:errors="*{description}"></small>
             </div>
         </div>
 

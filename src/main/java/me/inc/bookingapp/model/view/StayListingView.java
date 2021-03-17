@@ -17,6 +17,7 @@ public class StayListingView {
     private String country;
     private String city;
     private String address;
+    private String description;
     private Instant createdOn;
     private String addedFrom;
     private ListingType listingType = ListingType.STAY;
@@ -131,6 +132,15 @@ public class StayListingView {
 
     public StayListingView setAddress(String address) {
         this.address = address;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public StayListingView setDescription(String description) {
+        this.description = description;
         return this;
     }
 }

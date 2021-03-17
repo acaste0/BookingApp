@@ -1,30 +1,31 @@
 package me.inc.bookingapp.model.binding;
 
-import me.inc.bookingapp.model.entity.Account;
 import me.inc.bookingapp.model.entity.Picture;
 import me.inc.bookingapp.model.entity.enums.ListingType;
 import me.inc.bookingapp.model.entity.enums.StayType;
 import me.inc.bookingapp.model.entity.properties.StayProperties;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
-import java.time.Instant;
+import org.hibernate.validator.constraints.Length;
+import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class StayListingBinding {
 
-
+    @Length(min = 3, max = 30, message = "Listing title must be at least 3 characters")
     private String listingTitle;
-    private ListingType listingType = ListingType.STAY.STAY;
+    private ListingType listingType = ListingType.STAY;
     private StayType stayType;
+    @Min(value = 1, message = "Availability must be more than 0")
     private int availabilityLeft;
     private List<Picture> pictures = new ArrayList<>();
     private StayProperties stayProperties;
     private String country;
+    @Length(min = 3, max = 30, message = "City name must be at least 3 characters")
     private String city;
+    @Length(min = 3, max = 30, message = "Address must be at least 3 characters")
     private String address;
+    @Length(min = 10, message = "Description must contain at least 10 characters")
+    private String description;
 
     public String getListingTitle() {
         return listingTitle;
@@ -108,6 +109,15 @@ public class StayListingBinding {
 
     public StayListingBinding setAddress(String address) {
         this.address = address;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public StayListingBinding setDescription(String description) {
+        this.description = description;
         return this;
     }
 }

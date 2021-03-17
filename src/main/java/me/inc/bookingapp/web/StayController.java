@@ -63,14 +63,16 @@ public class StayController {
     @GetMapping("/create")
     public ModelAndView createListing(Model model) {
         ModelAndView modelAndView = new ModelAndView();
-        StayListingBinding binding = new StayListingBinding().setListingType(ListingType.STAY)
-                .setListingTitle((String) model.getAttribute("title"))
-                .setStayProperties(new StayProperties());
-        for (int i = 0; i < 3; i++) {
-            binding.addPicture(new Picture());
-        }
+        if (!model.containsAttribute("stayBinding")) {
+            StayListingBinding binding = new StayListingBinding().setListingType(ListingType.STAY)
+                    .setListingTitle((String) model.getAttribute("title"))
+                    .setStayProperties(new StayProperties());
+            for (int i = 0; i < 3; i++) {
+                binding.addPicture(new Picture());
+            }
 
-        modelAndView.addObject("stayBinding", binding);
+            modelAndView.addObject("stayBinding", binding);
+        }
         modelAndView.setViewName("listing/stay-create");
         return modelAndView;
     }
@@ -85,7 +87,8 @@ public class StayController {
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("stayBinding", stayBinding);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.stayBinding",
+            redirectAttributes.
+                    addFlashAttribute("org.springframework.validation.BindingResult.stayBinding",
                     bindingResult);
 
             mav.setViewName("redirect:/listing/stay/create");

@@ -16,6 +16,7 @@ public class StayListingServiceModel extends BaseListing {
     private String country;
     private String city;
     private String address;
+    private String description;
     private int availabilityLeft;
     private List<Picture> pictures;
     private StayProperties listingProperties;
@@ -91,6 +92,15 @@ public class StayListingServiceModel extends BaseListing {
 
     public StayListingServiceModel setAddress(String address) {
         this.address = address;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public StayListingServiceModel setDescription(String description) {
+        this.description = description;
         return this;
     }
 }

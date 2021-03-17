@@ -25,6 +25,9 @@ public class StayListing extends BaseListing {
     @Column
     private String address;
 
+    @Column(length = 1000)
+    private String description;
+
     @Column(name = "stay_type")
     @Enumerated(EnumType.STRING)
     private StayType stayType;
@@ -109,6 +112,15 @@ public class StayListing extends BaseListing {
 
     public StayListing setAddress(String address) {
         this.address = address;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public StayListing setDescription(String description) {
+        this.description = description;
         return this;
     }
 }
