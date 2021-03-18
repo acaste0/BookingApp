@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +43,11 @@ public class StayListingServiceImpl implements StayListingService {
 
         listing.setAddedFrom(account);
         listing.setAvailable(true);
+        listing.getStayProperties().setListing(listing);
+        listing.getPictures().forEach(p -> {
+            if (p.getPictureUrl().equals(""))
+                p.setPictureUrl("https://lh3.googleusercontent.com/proxy/Cl1nbGNcKHxTTJZIfGhJtVq7wN_h06jD9n0IjAX6EdFvLwR1KozYOv9ahn8g2ZiH8e9e_spTcdMeO8VaND7EX4OfcZBVB_JkBjMxvfKEygnQngUR7pd7hMsr06ooQBR3");
+        });
         listing.setPictures(listing.getPictures()
                 .stream().map(p -> p.setListing(listing)).collect(Collectors.toList()));
 
@@ -54,29 +60,12 @@ public class StayListingServiceImpl implements StayListingService {
         return this.stayListingRepository.findByListingTitle(title).isEmpty();
     }
 
-    //    @PostConstruct
-    @Override
-    public void testInit() {
-        StayListing sl = new StayListing();
-        sl.setListingTitle("Ivanov Zamak");
-        sl.setListingType(ListingType.STAY);
-        sl.setStayType(StayType.HOTEL);
-        Account ivan = accountService.getAccountEntity("ivan");
-        StayProperties stayProperties = new StayProperties().setHasElevator(true).setListing(sl);
-        sl.setListingProperties(stayProperties);
-        sl.setAddedFrom(ivan);
-        stayListingRepository.save(sl);
-
-
-
-        // TODO: 3/14/2021 FIX LISTINGS DATABASE
-    }
 
     @Override
     public StayPropertiesBinding getPropertiesByListingId(String id) {
 
         return this.modelMapper.map(this.stayListingRepository.findById(id)
-                        .get().getListingProperties(),
+                        .get().getStayProperties(),
                 StayPropertiesBinding.class);
 
     }
@@ -89,5 +78,14 @@ public class StayListingServiceImpl implements StayListingService {
         }
 
         return allListings;
+    }
+
+    @Override
+    public StayListingView getById(String id) {
+        Optional<StayListing> sl = stayListingRepository.findById(id);
+        if (sl.isEmpty())
+            return null;
+
+        return modelMapper.map(sl.get(), StayListingView.class);
     }
 }

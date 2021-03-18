@@ -35,7 +35,7 @@ public class StayProperties extends BaseEntity {
     @Column(name = "is_all_inclusive")
     private boolean isAllInclusive = false;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "listing_id")
     private StayListing listing;
 

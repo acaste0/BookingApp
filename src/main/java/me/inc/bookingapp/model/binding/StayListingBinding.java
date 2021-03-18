@@ -6,6 +6,7 @@ import me.inc.bookingapp.model.entity.enums.StayType;
 import me.inc.bookingapp.model.entity.properties.StayProperties;
 import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Min;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class StayListingBinding {
     private String address;
     @Length(min = 10, message = "Description must contain at least 10 characters")
     private String description;
+    @Min(value = 1, message = "Price cannot be negative number")
+    private BigDecimal pricePerNight;
 
     public String getListingTitle() {
         return listingTitle;
@@ -118,6 +121,15 @@ public class StayListingBinding {
 
     public StayListingBinding setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public BigDecimal getPricePerNight() {
+        return pricePerNight;
+    }
+
+    public StayListingBinding setPricePerNight(BigDecimal pricePerNight) {
+        this.pricePerNight = pricePerNight;
         return this;
     }
 }

@@ -12,8 +12,9 @@ public interface StayListingService {
 
     void createListing(StayListingServiceModel listing, String user);
     boolean titleAvailability(String title);
-    void testInit();
     StayPropertiesBinding getPropertiesByListingId(String id);
 
     List<StayListingView> getAllListings();
+
+    StayListingView getById(String id);
 }

@@ -6,6 +6,7 @@ import me.inc.bookingapp.model.entity.enums.StayType;
 import me.inc.bookingapp.model.entity.properties.StayProperties;
 
 import javax.persistence.Column;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class StayListingView {
     private String description;
     private Instant createdOn;
     private String addedFrom;
+    private BigDecimal pricePerNight;
     private ListingType listingType = ListingType.STAY;
     private StayType stayType;
     private int availabilityLeft;
@@ -141,6 +143,15 @@ public class StayListingView {
 
     public StayListingView setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public BigDecimal getPricePerNight() {
+        return pricePerNight;
+    }
+
+    public StayListingView setPricePerNight(BigDecimal pricePerNight) {
+        this.pricePerNight = pricePerNight;
         return this;
     }
 }

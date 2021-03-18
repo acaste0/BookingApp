@@ -53,9 +53,6 @@
             <div class="col-md-4 mb-3">
                 <label for="listingTitle">Listing Title</label>
                 <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                    </div>
                     <input th:field="*{listingTitle}" th:value="*{listingTitle}" type="text" class="form-control"
                            id="listingTitle" placeholder="Title for your listing"
                            aria-describedby="inputGroupPrepend" required>
@@ -108,7 +105,7 @@
 
 
             <div class="col-md-4 mb-3">
-                <label for="availability">Availability</label>
+                <label for="availability">Available Rooms</label>
                 <div class="input-group">
                     <input th:field="*{availabilityLeft}" type="number" class="form-control"
                            id="availability" placeholder="0"
@@ -117,12 +114,26 @@
                 <small th:if="${#fields.hasErrors('availabilityLeft')}"
                        class="text-danger" th:errors="*{availabilityLeft}"></small>
             </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="price">Price per night</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input th:field="*{pricePerNight}" type="number" class="form-control"
+                           id="price" placeholder="30.50"
+                           aria-describedby="inputGroupPrepend2" required>
+                </div>
+                <small th:if="${#fields.hasErrors('pricePerNight')}"
+                       class="text-danger" th:errors="*{pricePerNight}"></small>
+            </div>
+
         </div>
 
         <div class="form-row justify-content-center">
 
-
-            <div class="col-md-4 mb-3">
+            <div class="col-md-6 mb-2">
                 <label for="description">Description</label>
                 <div class="input-group">
                     <textarea rows="5" th:field="*{description}" type="text-area" class="form-control"
@@ -137,7 +148,6 @@
 
         <hr>
         <h5 class="text-center font-weight-bold">STAY PROPERTIES</h5>
-
         <div class="form-row justify-content-center">
             <div class="col-md-4 mb-3">
                 <div class="form-check form-switch float-right">
@@ -249,7 +259,7 @@
             </div>
 
 
-            <button class="btn btn-primary" type="submit">Publish</button>
+            <button class="btn btn-primary mb-5" type="submit">Publish</button>
         </div>
     </form>
 </div>

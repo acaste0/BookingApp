@@ -1,8 +1,6 @@
 package me.inc.bookingapp.web;
 
-import me.inc.bookingapp.model.binding.ListingStartBinding;
 import me.inc.bookingapp.model.binding.StayListingBinding;
-import me.inc.bookingapp.model.binding.StayPropertiesBinding;
 import me.inc.bookingapp.model.entity.Picture;
 import me.inc.bookingapp.model.entity.enums.ListingType;
 import me.inc.bookingapp.model.entity.enums.StayType;
@@ -53,13 +51,6 @@ public class StayController {
         return new ArrayList<>(List.of(StayType.values()));
     }
 
-
-    @GetMapping("/all")
-    public String allStays() {
-
-        return "all-stays";
-    }
-
     @GetMapping("/create")
     public ModelAndView createListing(Model model) {
         ModelAndView modelAndView = new ModelAndView();
@@ -73,7 +64,7 @@ public class StayController {
 
             modelAndView.addObject("stayBinding", binding);
         }
-        modelAndView.setViewName("listing/stay-create");
+        modelAndView.setViewName("stay/stay-create");
         return modelAndView;
     }
 
@@ -91,7 +82,7 @@ public class StayController {
                     addFlashAttribute("org.springframework.validation.BindingResult.stayBinding",
                     bindingResult);
 
-            mav.setViewName("redirect:/listing/stay/create");
+            mav.setViewName("redirect:/stay/create");
             return mav;
         }
 
@@ -99,7 +90,7 @@ public class StayController {
             redirectAttributes.addFlashAttribute("stayBinding", stayBinding);
             redirectAttributes.addFlashAttribute("titleExist", true);
 
-            mav.setViewName("redirect:/listing/stay/create");
+            mav.setViewName("redirect:/stay/create");
             return mav;
         }
 

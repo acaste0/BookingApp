@@ -17,6 +17,7 @@ public abstract class BaseEntity {
 
     @Column(name = "created_on")
     private Instant createdOn = Instant.now();
+
     public BaseEntity() {
     }
 

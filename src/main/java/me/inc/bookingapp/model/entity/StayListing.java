@@ -6,6 +6,8 @@ import me.inc.bookingapp.model.entity.enums.StayType;
 import me.inc.bookingapp.model.entity.properties.StayProperties;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -28,6 +30,9 @@ public class StayListing extends BaseListing {
     @Column(length = 1000)
     private String description;
 
+    @Column(name = "price_per_night")
+    private BigDecimal pricePerNight;
+
     @Column(name = "stay_type")
     @Enumerated(EnumType.STRING)
     private StayType stayType;
@@ -40,7 +45,7 @@ public class StayListing extends BaseListing {
 
 
     @OneToOne(mappedBy = "listing", cascade = CascadeType.ALL)
-    private StayProperties listingProperties;
+    private StayProperties stayProperties;
 
 
     public ListingType getListingType() {
@@ -79,14 +84,6 @@ public class StayListing extends BaseListing {
         return pictures;
     }
 
-    public StayProperties getListingProperties() {
-        return listingProperties;
-    }
-
-    public StayListing setListingProperties(StayProperties listingProperties) {
-        this.listingProperties = listingProperties;
-        return this;
-    }
 
     public String getCountry() {
         return country;
@@ -121,6 +118,24 @@ public class StayListing extends BaseListing {
 
     public StayListing setDescription(String description) {
         this.description = description;
+        return this;
+    }
+
+    public BigDecimal getPricePerNight() {
+        return pricePerNight;
+    }
+
+    public StayListing setPricePerNight(BigDecimal pricePerNight) {
+        this.pricePerNight = pricePerNight;
+        return this;
+    }
+
+    public StayProperties getStayProperties() {
+        return stayProperties;
+    }
+
+    public StayListing setStayProperties(StayProperties stayProperties) {
+        this.stayProperties = stayProperties;
         return this;
     }
 }
