@@ -5,12 +5,13 @@ import me.inc.bookingapp.model.entity.properties.StayProperties;
 import me.inc.bookingapp.model.service.StayListingServiceModel;
 import me.inc.bookingapp.model.view.StayListingView;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface StayListingService {
 
 
-    void createListing(StayListingServiceModel listing, String user);
+    void createListing(StayListingServiceModel listing, String user) throws IOException;
     boolean titleAvailability(String title);
     StayPropertiesBinding getPropertiesByListingId(String id);
 

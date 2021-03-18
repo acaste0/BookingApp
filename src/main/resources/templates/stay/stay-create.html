@@ -28,7 +28,7 @@
 <h3 class="text-lg-center mb-4 font-weight-bold">STAY LISTING CREATION</h3>
 <hr>
 <div class="container">
-    <form class="needs-validation" novalidate method="POST"
+    <form class="needs-validation" novalidate method="POST" enctype="multipart/form-data"
           th:action="@{/listing/stay/create}" th:object="${stayBinding}">
 
 
@@ -236,12 +236,19 @@
         <h5 class="text-lg-center mb-4 font-weight-bold">STAY LISTING IMAGES</h5>
         <hr>
 
-        <div class="form-row justify-content-center" th:each="p, itemStat : *{pictures}">
+<!--        <div class="form-row justify-content-center" th:each="p, itemStat : *{pictures}">-->
+        <div class="form-row justify-content-center">
             <div class="col-md-4 mb-3">
                 <div class="input-group">
-                    <input th:field="*{pictures[__${itemStat.index}__].pictureUrl}" type="text"
-                           placeholder="URL for image" class="form-control">
+<!--                    <input th:field="*{pictures[__${itemStat.index}__].pictureUrl}" type="file"-->
+                    <input th:field="*{pictures}" type="file"
+                           placeholder="Upload images" class="form-control" multiple="multiple">
                 </div>
+
+<!--                <div class="input-group">-->
+<!--                    <input th:field="*{pictures[__${itemStat.index}__].pictureUrl}" type="text"-->
+<!--                           placeholder="URL for image" class="form-control">-->
+<!--                </div>-->
             </div>
         </div>
 

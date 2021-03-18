@@ -1,7 +1,6 @@
 package me.inc.bookingapp.web;
 
 import me.inc.bookingapp.model.binding.StayListingBinding;
-import me.inc.bookingapp.model.entity.Picture;
 import me.inc.bookingapp.model.entity.enums.ListingType;
 import me.inc.bookingapp.model.entity.enums.StayType;
 import me.inc.bookingapp.model.entity.properties.StayProperties;
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,12 +58,9 @@ public class StayController {
             StayListingBinding binding = new StayListingBinding().setListingType(ListingType.STAY)
                     .setListingTitle((String) model.getAttribute("title"))
                     .setStayProperties(new StayProperties());
-            for (int i = 0; i < 3; i++) {
-                binding.addPicture(new Picture());
-            }
-
             modelAndView.addObject("stayBinding", binding);
         }
+
         modelAndView.setViewName("stay/stay-create");
         return modelAndView;
     }
@@ -73,7 +70,7 @@ public class StayController {
     public ModelAndView createListing(@Valid StayListingBinding stayBinding,
                                       BindingResult bindingResult,
                                       RedirectAttributes redirectAttributes,
-                                      Principal principal) {
+                                      Principal principal) throws IOException {
         ModelAndView mav = new ModelAndView();
 
         if (bindingResult.hasErrors()) {

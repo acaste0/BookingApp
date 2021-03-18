@@ -5,6 +5,7 @@ import me.inc.bookingapp.model.entity.base.BaseListing;
 import me.inc.bookingapp.model.entity.enums.ListingType;
 import me.inc.bookingapp.model.entity.enums.StayType;
 import me.inc.bookingapp.model.entity.properties.StayProperties;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
 import java.math.BigDecimal;
@@ -20,7 +21,7 @@ public class StayListingServiceModel extends BaseListing {
     private BigDecimal pricePerNight;
     private String description;
     private int availabilityLeft;
-    private List<Picture> pictures;
+    private MultipartFile[] pictures;
     private StayProperties stayProperties;
 
 
@@ -52,14 +53,7 @@ public class StayListingServiceModel extends BaseListing {
     }
 
 
-    public List<Picture> getPictures() {
-        return pictures;
-    }
 
-    public StayListingServiceModel setPictures(List<Picture> pictures) {
-        this.pictures = pictures;
-        return this;
-    }
 
     public String getCountry() {
         return country;
@@ -112,6 +106,15 @@ public class StayListingServiceModel extends BaseListing {
 
     public StayListingServiceModel setStayProperties(StayProperties stayProperties) {
         this.stayProperties = stayProperties;
+        return this;
+    }
+
+    public MultipartFile[] getPictures() {
+        return pictures;
+    }
+
+    public StayListingServiceModel setPictures(MultipartFile[] pictures) {
+        this.pictures = pictures;
         return this;
     }
 }

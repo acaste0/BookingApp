@@ -1,14 +1,13 @@
 package me.inc.bookingapp.model.binding;
 
-import me.inc.bookingapp.model.entity.Picture;
 import me.inc.bookingapp.model.entity.enums.ListingType;
 import me.inc.bookingapp.model.entity.enums.StayType;
 import me.inc.bookingapp.model.entity.properties.StayProperties;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.constraints.Min;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class StayListingBinding {
 
@@ -18,7 +17,7 @@ public class StayListingBinding {
     private StayType stayType;
     @Min(value = 1, message = "Availability must be more than 0")
     private int availabilityLeft;
-    private List<Picture> pictures = new ArrayList<>();
+    private MultipartFile[] pictures;
     private StayProperties stayProperties;
     private String country;
     @Length(min = 3, max = 30, message = "City name must be at least 3 characters")
@@ -66,14 +65,7 @@ public class StayListingBinding {
         return this;
     }
 
-    public List<Picture> getPictures() {
-        return pictures;
-    }
 
-    public StayListingBinding setPictures(List<Picture> pictures) {
-        this.pictures = pictures;
-        return this;
-    }
 
     public StayProperties getStayProperties() {
         return stayProperties;
@@ -82,9 +74,6 @@ public class StayListingBinding {
     public StayListingBinding setStayProperties(StayProperties stayProperties) {
         this.stayProperties = stayProperties;
         return this;
-    }
-    public void addPicture(Picture picture) {
-        this.pictures.add(picture);
     }
 
 
@@ -130,6 +119,15 @@ public class StayListingBinding {
 
     public StayListingBinding setPricePerNight(BigDecimal pricePerNight) {
         this.pricePerNight = pricePerNight;
+        return this;
+    }
+
+    public MultipartFile[] getPictures() {
+        return pictures;
+    }
+
+    public StayListingBinding setPictures(MultipartFile[] pictures) {
+        this.pictures = pictures;
         return this;
     }
 }

@@ -9,74 +9,79 @@
 <body>
 <th:block th:include="~{fragments/nav}"></th:block>
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="sidebar">
-                <div class="widget border-0">
-                    <h6>Search by keyword</h6>
-                    <div class="search">
-                        <input class="form-control" type="text" placeholder="Search Keywords">
+    <div th:object="${stayListing}">
+        <div class="card m-auto">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" th:src="*{pictures.get(0).pictureUrl}" alt="First slide">
                     </div>
-                </div>
-                <h6>Search Location</h6>
-                <div class="widget border-0">
-                    <div class="locations">
-                        <input class="form-control" type="text" placeholder="All Locations">
+                    <div class="carousel-item" th:each="p : *{pictures}">
+                        <img class="d-block w-100" th:src="${p.pictureUrl}" alt="slide">
                     </div>
-                </div>
-                <div class="widget">
-                    <div class="widget-title widget-collapse">
-                        <h6>Price per night</h6>
-                        <a class="ml-auto" data-toggle="collapse" href="#dateposted" role="button" aria-expanded="false"
-                           aria-controls="dateposted"> <i class="fas fa-chevron-down"></i> </a>
-                    </div>
-                    <div class="collapse show" id="dateposted">
-                        <div class="widget-content">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="dateposted1">
-                                <label class="custom-control-label" for="dateposted1">50$</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="widget border-0">
-                    <div class="widget-add">
-                        <img class="img-fluid" src="images/add-banner.png" alt=""></div>
                 </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
-        </div>
-        <div class="col-lg-9">
-            <div class="row mb-4">
-                <div class="col-12">
-                    <h6 class="mb-0">Showing 1-10 of <span class="text-primary">28 properties</span></h6>
-                </div>
-            </div>
-
-            <div th:each="st : ${stayListings}">
-                <div class="card m-2">
-                    <h5 class="card-header">Featured</h5>
-                    <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-header text-center" th:text="*{listingTitle}"></h5>
+            <div class="card-body">
+                <!--                <img class="float-left mr-3" height="100" th:src="*{pictures.get(0).pictureUrl}">-->
+                <h5 class="card-title" th:text="'' + *{country} + ', ' + *{city}"></h5>
+                <a class="card-text" th:text="'Type - '+  *{stayType.getName()}"></a><br>
+                <a class="card-text" th:text="'Available Rooms: '+  *{availabilityLeft}"></a><br>
+                <a class="card-text" th:text="'Price per night: '+  *{pricePerNight}"></a>
+                <a class="card-text float-right"
+                   th:text="${#dates.format(stayListing.createdOn, 'dd-MMM-yyyy HH:mm')}"></a>
+                <hr>
+                <div class="text-center">
+                    <h6 class="font-weight-bold">Stay Properties</h6>
+                    <div class="row justify-content-center">
+                        <ul class="list-group col-auto">
+                            <li class="list-group-item"
+                                th:text="*{stayProperties.hasWifi} ? '✔ Wifi' : '✖ Wifi'"></li>
+                            <li class="list-group-item"
+                                th:text="*{stayProperties.hasTV} ? '✔ TV' : '✖ TV'"></li>
+                        </ul>
+                        <ul class="list-group col-auto">
+                            <li class="list-group-item"
+                                th:text="*{stayProperties.hasBathroom} ? '✔ Bathroom' : '✖ Bathroom'"></li>
+                            <li class="list-group-item"
+                                th:text="*{stayProperties.hasBedroom} ? '✔ Bedroom' : '✖ Bedroom'"></li>
+                        </ul>
+                        <ul class="list-group col-auto">
+                            <li class="list-group-item"
+                                th:text="*{stayProperties.hasFreeBreakfast} ? '✔ Free Breakfast' : '✖ Free Breakfast'"></li>
+                            <li class="list-group-item"
+                                th:text="*{stayProperties.hasRestaurant} ? '✔ Restaurant' : '✖ Restaurant'"></li>
+                        </ul>
+                        <ul class="list-group col-auto">
+                            <li class="list-group-item"
+                                th:text="*{stayProperties.hasParking} ? '✔ Parking' : '✖ Parking'"></li>
+                            <li class="list-group-item"
+                                th:text="*{stayProperties.hasCityView} ? '✔ City View' : '✖ City View'"></li>
+                        </ul>
                     </div>
                 </div>
-            </div>
+                <hr>
 
-            <div class="row">
-                <div class="col-12 text-center mt-4 mt-sm-5">
-                    <ul class="pagination justify-content-center mb-0">
-                        <li class="page-item disabled"><span class="page-link">Prev</span></li>
-                        <li class="page-item active" aria-current="page"><span class="page-link">1 </span> <span
-                                class="sr-only">(current)</span></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">...</a></li>
-                        <li class="page-item"><a class="page-link" href="#">25</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
+                <div class="text-center">
+                    <h6 class="font-weight-bold">About the place</h6>
+                    <span class="bg-gray-300" th:text="*{description}"></span>
                 </div>
+                <hr>
+                <a th:href="@{'/account/book/stay/' + *{id}+''}" class="btn btn-outline-info btn-block">Reserve</a>
             </div>
         </div>
     </div>

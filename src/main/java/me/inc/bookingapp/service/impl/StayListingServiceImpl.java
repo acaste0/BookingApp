@@ -1,22 +1,21 @@
 package me.inc.bookingapp.service.impl;
 
+import com.cloudinary.Cloudinary;
 import me.inc.bookingapp.model.binding.StayPropertiesBinding;
 import me.inc.bookingapp.model.entity.Account;
 import me.inc.bookingapp.model.entity.Picture;
 import me.inc.bookingapp.model.entity.StayListing;
-import me.inc.bookingapp.model.entity.enums.ListingType;
-import me.inc.bookingapp.model.entity.enums.StayType;
-import me.inc.bookingapp.model.entity.properties.StayProperties;
 import me.inc.bookingapp.model.service.StayListingServiceModel;
 import me.inc.bookingapp.model.view.StayListingView;
 import me.inc.bookingapp.service.AccountService;
+import me.inc.bookingapp.service.CloudService;
 import me.inc.bookingapp.service.StayListingService;
 import me.inc.bookingapp.repository.StayListingRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.PostConstruct;
-import java.time.Instant;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,34 +24,41 @@ import java.util.stream.Collectors;
 @Service
 public class StayListingServiceImpl implements StayListingService {
 
+    private final CloudService cloudService;
     private final AccountService accountService;
     private final StayListingRepository stayListingRepository;
     private final ModelMapper modelMapper;
+    private final Cloudinary cloudinary;
 
-    public StayListingServiceImpl(AccountService accountService, StayListingRepository stayListingRepository, ModelMapper modelMapper) {
+    public StayListingServiceImpl(CloudService cloudService, AccountService accountService, StayListingRepository stayListingRepository, ModelMapper modelMapper, Cloudinary cloudinary) {
+        this.cloudService = cloudService;
         this.accountService = accountService;
         this.stayListingRepository = stayListingRepository;
         this.modelMapper = modelMapper;
 
+        this.cloudinary = cloudinary;
     }
 
     @Override
-    public void createListing(StayListingServiceModel listingServiceModel, String user) {
+    public void createListing(StayListingServiceModel listingServiceModel, String user) throws IOException {
         StayListing listing = modelMapper.map(listingServiceModel, StayListing.class);
         Account account = this.accountService.getAccountEntity(user);
 
         listing.setAddedFrom(account);
         listing.setAvailable(true);
         listing.getStayProperties().setListing(listing);
-        listing.getPictures().forEach(p -> {
-            if (p.getPictureUrl().equals(""))
-                p.setPictureUrl("https://lh3.googleusercontent.com/proxy/Cl1nbGNcKHxTTJZIfGhJtVq7wN_h06jD9n0IjAX6EdFvLwR1KozYOv9ahn8g2ZiH8e9e_spTcdMeO8VaND7EX4OfcZBVB_JkBjMxvfKEygnQngUR7pd7hMsr06ooQBR3");
-        });
-        listing.setPictures(listing.getPictures()
-                .stream().map(p -> p.setListing(listing)).collect(Collectors.toList()));
+        listing.setPictures(mapPictures(listingServiceModel.getPictures(), listing));
 
         this.stayListingRepository.save(listing);
 
+    }
+
+    private List<Picture> mapPictures(MultipartFile[] pictures, StayListing listing) throws IOException {
+        List<Picture> list = new ArrayList<>();
+        for (MultipartFile picture : pictures) {
+            list.add(new Picture().setPictureUrl(cloudService.upload(picture)).setListing(listing));
+        }
+        return list;
     }
 
     @Override
