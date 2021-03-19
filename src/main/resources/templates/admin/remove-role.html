@@ -5,19 +5,17 @@
 </head>
 <body>
 <th:block th:include="~{fragments/nav}"/>
-<h1 class="text-lg-center mb-5">Add Account Role</h1>
+<h1 class="text-lg-center mb-5">Remove Role from Account</h1>
 <div class="container">
     <form class="needs-validation" novalidate method="POST"
-          th:action="@{/admin/role/add}" th:object="${roleBinding}">
+          th:action="@{/admin/role/remove}" th:object="${roleBinding}">
 
         <div class="form-row justify-content-center">
             <div class="col-md-4 mb-3">
                 <div th:if="${success}" class="alert alert-success">
-                    <strong>Success!</strong> You have added new Role to the account!
+                    <strong>Success!</strong> You have removed Role from the account!
                 </div>
-
                 <label for="username">Account Username</label>
-
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text bi bi-person" id="inputGroupPrepend"></span>
@@ -40,17 +38,17 @@
                    th:if="${notFound}">Account not found Try again
                 </a>
                 <a class="text-danger text-sm-center position-absolute"
-                   th:if="${alreadyInThisRole}">This account already has this role! Try again
+                   th:if="${noRole}">This account don't has this role!
                 </a>
 
             </div>
         </div>
 
         <div class="text-center mt-3">
-            <button class="btn btn-primary" type="submit">Add Role</button>
+            <button class="btn btn-primary" type="submit">Remove Role</button>
         </div>
     </form>
 </div>
-
+<th:block th:include="~{fragments/footer}"></th:block>
 </body>
 </html>

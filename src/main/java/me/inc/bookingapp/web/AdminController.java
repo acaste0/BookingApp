@@ -1,6 +1,6 @@
 package me.inc.bookingapp.web;
 
-import me.inc.bookingapp.model.binding.AccountRoleAddBinding;
+import me.inc.bookingapp.model.binding.AccountRoleEditBinding;
 import me.inc.bookingapp.service.AccountService;
 import me.inc.bookingapp.service.AdminService;
 import me.inc.bookingapp.service.RoleService;
@@ -19,21 +19,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AdminController {
 
     private final AdminService adminService;
-    private final AccountService accountService;
     private final RoleService roleService;
-    private final ModelMapper modelMapper;
 
 
     public AdminController(AdminService adminService, AccountService accountService, RoleService roleService, ModelMapper modelMapper) {
         this.adminService = adminService;
-        this.accountService = accountService;
         this.roleService = roleService;
-        this.modelMapper = modelMapper;
     }
 
-    @ModelAttribute("roleAdd")
-    public AccountRoleAddBinding addRole() {
-        return new AccountRoleAddBinding();
+    @ModelAttribute("roleBinding")
+    public AccountRoleEditBinding roleBinding() {
+        return new AccountRoleEditBinding();
+    }
+
+    @GetMapping("/role/remove")
+    public ModelAndView removeRoleView() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("roles", roleService.getAllRoles());
+        modelAndView.setViewName("/admin/remove-role");
+        return modelAndView;
     }
 
     @GetMapping("/role/add")
@@ -45,12 +49,11 @@ public class AdminController {
     }
 
     @PostMapping("/role/add")
-    public String addRole(AccountRoleAddBinding accountRoleAddBinding, RedirectAttributes redirectAttributes) {
+    public String addRole(AccountRoleEditBinding accountRoleEditBinding, RedirectAttributes redirectAttributes) {
 
         try {
-            adminService.addRole( accountRoleAddBinding);
+            adminService.addRole(accountRoleEditBinding);
             redirectAttributes.addFlashAttribute("success", true);
-
             return "redirect:/admin/role/add";
 
         } catch (UnsupportedOperationException a) {
@@ -61,6 +64,28 @@ public class AdminController {
             redirectAttributes.addFlashAttribute("notFound", true);
 
             return "redirect:/admin/role/add";
+        }
+
+    }
+
+    @PostMapping("/role/remove")
+    public String removeRole(AccountRoleEditBinding accountRoleEditBinding,
+                             RedirectAttributes redirectAttributes) {
+
+        try {
+            boolean b = adminService.removeRole(accountRoleEditBinding);
+            if (b) {
+                redirectAttributes.addFlashAttribute("success", true);
+            } else {
+                redirectAttributes.addFlashAttribute("noRole", true);
+            }
+
+            return "redirect:/admin/role/remove";
+
+        } catch (UsernameNotFoundException e) {
+            redirectAttributes.addFlashAttribute("notFound", true);
+
+            return "redirect:/admin/role/remove";
         }
 
     }

@@ -1,6 +1,6 @@
 package me.inc.bookingapp.service.impl;
 
-import me.inc.bookingapp.model.binding.AccountRoleAddBinding;
+import me.inc.bookingapp.model.binding.AccountRoleEditBinding;
 import me.inc.bookingapp.model.entity.Account;
 import me.inc.bookingapp.model.entity.AccountRole;
 import me.inc.bookingapp.model.entity.enums.AccountType;
@@ -21,17 +21,15 @@ public class AdminServiceImpl implements AdminService {
     private final AccountRepository accountRepository;
     private final AccountRoleRepository accountRoleRepository;
     private final StayListingRepository stayListingRepository;
-    private final ModelMapper modelMapper;
 
-    public AdminServiceImpl(AccountRepository accountRepository, AccountRoleRepository accountRoleRepository, StayListingRepository stayListingRepository, ModelMapper modelMapper) {
+    public AdminServiceImpl(AccountRepository accountRepository, AccountRoleRepository accountRoleRepository, StayListingRepository stayListingRepository) {
         this.accountRepository = accountRepository;
         this.accountRoleRepository = accountRoleRepository;
         this.stayListingRepository = stayListingRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
-    public void addRole(AccountRoleAddBinding accountBinding) {
+    public void addRole(AccountRoleEditBinding accountBinding) {
         Optional<Account> account = this.accountRepository.findByUsername(accountBinding.getUsername());
         if (account.isEmpty()) {
             throw new UsernameNotFoundException("Cannot find user with" + accountBinding.getUsername());
@@ -67,5 +65,23 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Account> getAllUsers() {
         return this.accountRepository.findAll();
+    }
+
+    @Override
+    public boolean removeRole(AccountRoleEditBinding accountBinding) {
+        AccountRole role = accountRoleRepository.getByRole(accountBinding.getRole());
+        Optional<Account> account = this.accountRepository.findByUsername(accountBinding.getUsername());
+        if (account.isEmpty()) {
+            throw new UsernameNotFoundException("Cannot find user with" + accountBinding.getUsername());
+        }
+        List<AccountRole> roles = account.get().getAccountRoles();
+        if (roles.contains(role)) {
+            roles.remove(role);
+            account.get().setAccountRoles(roles);
+            this.accountRepository.save(account.get());
+            return true;
+        }
+
+        return false;
     }
 }

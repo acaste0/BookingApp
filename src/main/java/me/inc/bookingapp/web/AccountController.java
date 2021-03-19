@@ -1,32 +1,22 @@
 package me.inc.bookingapp.web;
 
 import me.inc.bookingapp.model.binding.AccountEditBinding;
-import me.inc.bookingapp.model.binding.AccountLoginBinding;
 import me.inc.bookingapp.model.binding.AccountRegistrationBinding;
-import me.inc.bookingapp.model.entity.Account;
 import me.inc.bookingapp.model.entity.enums.AccountType;
 import me.inc.bookingapp.model.service.AccountServiceModel;
 import me.inc.bookingapp.model.view.AccountViewModel;
 import me.inc.bookingapp.service.AccountService;
-import org.dom4j.rule.Mode;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -43,8 +33,8 @@ public class AccountController {
 
 
     @GetMapping("/registration")
-    public String registerGet(Model model) {
-        return "register";
+    public ModelAndView registerView() {
+        return new ModelAndView("/account/register");
     }
 
     @GetMapping("/listings")
@@ -52,7 +42,7 @@ public class AccountController {
         ModelAndView mav = new ModelAndView();
         mav.addObject("stayListings",
                 accountService.getAllAccountListings(principal.getName()));
-        mav.setViewName("account-listings");
+        mav.setViewName("/account/account-listings");
         return mav;
     }
 
@@ -62,7 +52,7 @@ public class AccountController {
         modelAndView.addObject("accountView", accountView(principal.getName()));
         if (!model.containsAttribute("accountEditForm"))
             modelAndView.addObject("accountEditForm", accountEditBinding(principal.getName()));
-        modelAndView.setViewName("account-edit");
+        modelAndView.setViewName("/account/account-edit");
 
         return modelAndView;
     }
@@ -102,7 +92,7 @@ public class AccountController {
         AccountViewModel view = accountService.getView(principal.getName());
 
         modelAndView.addObject("accountView", view);
-        modelAndView.setViewName("profile");
+        modelAndView.setViewName("/account/profile");
         return modelAndView;
     }
 

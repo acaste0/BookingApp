@@ -1,9 +1,8 @@
 package me.inc.bookingapp.model.binding;
 
-import me.inc.bookingapp.model.entity.AccountRole;
 import me.inc.bookingapp.model.entity.enums.Role;
 
-public class AccountRoleAddBinding {
+public class AccountRoleEditBinding {
 
     private String username;
     private Role role;
@@ -12,7 +11,7 @@ public class AccountRoleAddBinding {
         return username;
     }
 
-    public AccountRoleAddBinding setUsername(String username) {
+    public AccountRoleEditBinding setUsername(String username) {
         this.username = username;
         return this;
     }
@@ -21,7 +20,7 @@ public class AccountRoleAddBinding {
         return role;
     }
 
-    public AccountRoleAddBinding setRole(Role role) {
+    public AccountRoleEditBinding setRole(Role role) {
         this.role = role;
         return this;
     }
