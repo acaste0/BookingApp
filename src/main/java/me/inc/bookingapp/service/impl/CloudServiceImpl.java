@@ -24,5 +24,9 @@ public class CloudServiceImpl implements CloudService {
         return this.cloudinary.uploader().upload(file, Collections.emptyMap()).get("url").toString();
     }
 
+    @Override
+    public String upload(File file) throws IOException {
+        return this.cloudinary.uploader().upload(file, Collections.emptyMap()).get("url").toString();
+    }
 
 }

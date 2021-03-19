@@ -2,48 +2,62 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
+
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
-
 </head>
 <body>
 <th:block th:include="~{fragments/nav}"></th:block>
 <div class="container mt-5">
     <div th:object="${stayListing}">
         <div class="card m-auto">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="d-block w-100" th:src="*{pictures.get(0).pictureUrl}" alt="First slide">
-                    </div>
-                    <div class="carousel-item" th:each="p : *{pictures}">
-                        <img class="d-block w-100" th:src="${p.pictureUrl}" alt="slide">
+            <h5 class="card-header text-center" th:text="*{listingTitle}"></h5>
+            <div class="card-body" style="background:#f7f7f7;">
+
+
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>
+
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img class="d-block w-50 m-auto"
+                                 th:src="${stayListing.pictures.get(0).pictureUrl}"
+                                 alt="First slide">
+
+                        </div>
+                        <div class="carousel-item" th:each="p : *{pictures}">
+                            <img class="d-block w-50 m-auto"
+                                 th:src="${p.pictureUrl}"
+                                 alt="slide">
+
+                        </div>
                     </div>
 
+
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon bg-dark" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon bg-dark" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
                 </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-            <h5 class="card-header text-center" th:text="*{listingTitle}"></h5>
-            <div class="card-body">
-                <!--                <img class="float-left mr-3" height="100" th:src="*{pictures.get(0).pictureUrl}">-->
-                <h5 class="card-title" th:text="'' + *{country} + ', ' + *{city}"></h5>
-                <a class="card-text" th:text="'Type - '+  *{stayType.getName()}"></a><br>
-                <a class="card-text" th:text="'Available Rooms: '+  *{availabilityLeft}"></a><br>
-                <a class="card-text" th:text="'Price per night: '+  *{pricePerNight}"></a>
-                <a class="card-text float-right"
-                   th:text="${#dates.format(stayListing.createdOn, 'dd-MMM-yyyy HH:mm')}"></a>
+
+                <hr>
+                <div class="text-center">
+                    <h5 class="card-title" th:text="'' + *{country} + ', ' + *{city}"></h5>
+                    <a class="card-text" th:text="'Type - '+  *{stayType.getName()}"></a><br>
+                    <a class="card-text" th:text="'Available Rooms: '+  *{availabilityLeft}"></a><br>
+                    <a class="card-text" th:text="'Price per night: '+  *{pricePerNight}"></a><br>
+
+                    <a class="card-text float-right"
+                       th:text="${#dates.format(stayListing.createdOn, 'dd-MMM-yyyy HH:mm')}"></a><br>
+                </div>
                 <hr>
                 <div class="text-center">
                     <h6 class="font-weight-bold">Stay Properties</h6>
@@ -86,6 +100,7 @@
         </div>
     </div>
 </div>
-
 </body>
+<th:block th:include="~{fragments/footer}"></th:block>
+
 </html>

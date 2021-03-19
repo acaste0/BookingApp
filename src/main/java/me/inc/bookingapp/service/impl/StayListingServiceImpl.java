@@ -12,12 +12,18 @@ import me.inc.bookingapp.service.CloudService;
 import me.inc.bookingapp.service.StayListingService;
 import me.inc.bookingapp.repository.StayListingRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,15 +34,12 @@ public class StayListingServiceImpl implements StayListingService {
     private final AccountService accountService;
     private final StayListingRepository stayListingRepository;
     private final ModelMapper modelMapper;
-    private final Cloudinary cloudinary;
 
-    public StayListingServiceImpl(CloudService cloudService, AccountService accountService, StayListingRepository stayListingRepository, ModelMapper modelMapper, Cloudinary cloudinary) {
+    public StayListingServiceImpl(CloudService cloudService, AccountService accountService, StayListingRepository stayListingRepository, ModelMapper modelMapper) {
         this.cloudService = cloudService;
         this.accountService = accountService;
         this.stayListingRepository = stayListingRepository;
         this.modelMapper = modelMapper;
-
-        this.cloudinary = cloudinary;
     }
 
     @Override
@@ -55,6 +58,11 @@ public class StayListingServiceImpl implements StayListingService {
 
     private List<Picture> mapPictures(MultipartFile[] pictures, StayListing listing) throws IOException {
         List<Picture> list = new ArrayList<>();
+        if (pictures == null || pictures.length == 0 || Objects.equals(pictures[0].getOriginalFilename(), "")) {
+//            File file = ResourceUtils.getFile("classpath:/static/img/noPhoto.png");
+            list.add(new Picture().setPictureUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png").setListing(listing));
+            return list;
+        }
         for (MultipartFile picture : pictures) {
             list.add(new Picture().setPictureUrl(cloudService.upload(picture)).setListing(listing));
         }
