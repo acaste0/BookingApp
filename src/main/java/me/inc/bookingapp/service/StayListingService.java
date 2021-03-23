@@ -1,6 +1,7 @@
 package me.inc.bookingapp.service;
 
 import me.inc.bookingapp.model.binding.StayPropertiesBinding;
+import me.inc.bookingapp.model.entity.StayListing;
 import me.inc.bookingapp.model.entity.properties.StayProperties;
 import me.inc.bookingapp.model.service.StayListingServiceModel;
 import me.inc.bookingapp.model.view.StayListingView;
@@ -18,4 +19,11 @@ public interface StayListingService {
     List<StayListingView> getAllListings();
 
     StayListingView getById(String id);
+    List<StayListingView> getAll();
+
+    void deleteById(String id);
+
+    StayListing findEntityById(String listingId);
+
+    StayListing findEntityByTitle(String title);
 }

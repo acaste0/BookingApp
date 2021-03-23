@@ -21,7 +21,7 @@ public interface AccountService {
 
     void editAccount(String name, AccountEditBinding map);
 
-    AccountServiceModel getAccount(String username);
+    AccountServiceModel getAccount(String id);
 
     Account getAccountEntity(String username);
 

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"/>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"/>
+<h1 class="text-lg-center mb-5">Delete Stay Listing</h1>
+<div class="container">
+    <form class="needs-validation" novalidate method="POST"
+          th:action="@{/admin/listing/stays/delete}">
+
+        <div class="form-row justify-content-center">
+            <div class="col-md-4 mb-3">
+                <div th:if="${success}" class="alert alert-success">
+                    <strong>Success!</strong> You have deleted stay listing!
+                </div>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col-md-4 mb-3 justify-content-center">
+                <label for="listing">Select Listing</label>
+
+                <select class="form-control" name="id" id="listing" required>
+                    <option th:each="l : ${listings}" th:value="${l.getId()}" th:text="${l.listingTitle}"></option>
+                </select>
+
+
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <button class="btn btn-primary" type="submit">Delete</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

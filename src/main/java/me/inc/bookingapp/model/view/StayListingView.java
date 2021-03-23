@@ -26,7 +26,7 @@ public class StayListingView {
     private StayType stayType;
     private int availabilityLeft;
     private List<PictureView> pictures;
-    private StayProperties stayProperties;
+    private StayPropertiesView stayProperties;
 
     public String getListingTitle() {
         return listingTitle;
@@ -82,11 +82,11 @@ public class StayListingView {
         return this;
     }
 
-    public StayProperties getStayProperties() {
+    public StayPropertiesView getStayProperties() {
         return stayProperties;
     }
 
-    public StayListingView setStayProperties(StayProperties stayProperties) {
+    public StayListingView setStayProperties(StayPropertiesView stayProperties) {
         this.stayProperties = stayProperties;
         return this;
     }

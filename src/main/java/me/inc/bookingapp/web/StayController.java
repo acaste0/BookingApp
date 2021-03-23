@@ -67,7 +67,7 @@ public class StayController {
 
 
     @PostMapping("/create")
-    public ModelAndView createListing(@Valid StayListingBinding stayBinding,
+    public ModelAndView createListingConfirm(@Valid StayListingBinding stayBinding,
                                       BindingResult bindingResult,
                                       RedirectAttributes redirectAttributes,
                                       Principal principal) throws IOException {

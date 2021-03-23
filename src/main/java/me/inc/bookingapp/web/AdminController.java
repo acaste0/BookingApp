@@ -4,13 +4,11 @@ import me.inc.bookingapp.model.binding.AccountRoleEditBinding;
 import me.inc.bookingapp.service.AccountService;
 import me.inc.bookingapp.service.AdminService;
 import me.inc.bookingapp.service.RoleService;
+import me.inc.bookingapp.service.StayListingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -19,17 +17,30 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AdminController {
 
     private final AdminService adminService;
+    private final AccountService accountService;
     private final RoleService roleService;
+    private final StayListingService stayListingService;
 
 
-    public AdminController(AdminService adminService, AccountService accountService, RoleService roleService, ModelMapper modelMapper) {
+    public AdminController(AdminService adminService, AccountService accountService, AccountService accountService1, RoleService roleService, ModelMapper modelMapper, StayListingService stayListingService) {
         this.adminService = adminService;
+        this.accountService = accountService1;
         this.roleService = roleService;
+        this.stayListingService = stayListingService;
     }
+
 
     @ModelAttribute("roleBinding")
     public AccountRoleEditBinding roleBinding() {
         return new AccountRoleEditBinding();
+    }
+
+    @GetMapping("/listing/stays/delete")
+    public ModelAndView deleteStayListingView() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("listings", stayListingService.getAll());
+        modelAndView.setViewName("/admin/delete-stay-listing");
+        return modelAndView;
     }
 
     @GetMapping("/role/remove")
@@ -37,6 +48,14 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("roles", roleService.getAllRoles());
         modelAndView.setViewName("/admin/remove-role");
+        return modelAndView;
+    }
+
+    @GetMapping("/account/edit/{id}")
+    public ModelAndView editAccountView(@PathVariable String id) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("account", accountService.getAccount(id));
+        modelAndView.setViewName("/admin/account-edit");
         return modelAndView;
     }
 
@@ -68,6 +87,13 @@ public class AdminController {
 
     }
 
+    @PostMapping("/listing/stays/delete")
+    public String deleteStayListing(String id, RedirectAttributes redirectAttributes) {
+        stayListingService.deleteById(id);
+        redirectAttributes.addFlashAttribute("success", true);
+        return "redirect:/admin/listing/stays/delete";
+    }
+
     @PostMapping("/role/remove")
     public String removeRole(AccountRoleEditBinding accountRoleEditBinding,
                              RedirectAttributes redirectAttributes) {
@@ -88,6 +114,12 @@ public class AdminController {
             return "redirect:/admin/role/remove";
         }
 
+    }
+
+
+    @GetMapping("/logs")
+    public ModelAndView logsView() {
+        return new ModelAndView("/admin/logs");
     }
 
 }

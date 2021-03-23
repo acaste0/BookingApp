@@ -19,6 +19,14 @@ public class ListingViewController {
         this.stayListingService = stayListingService;
     }
 
+    @GetMapping("/stay/test")
+    public ModelAndView viewAllStays2(){
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("/stay/search-stay");
+        mav.addObject("stayListings", stayListingService.getAllListings());
+        return mav;
+    }
+
     @GetMapping("/stay")
     public ModelAndView viewAllStays(){
         ModelAndView mav = new ModelAndView();

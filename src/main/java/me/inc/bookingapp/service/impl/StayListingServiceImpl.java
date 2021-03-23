@@ -102,4 +102,27 @@ public class StayListingServiceImpl implements StayListingService {
 
         return modelMapper.map(sl.get(), StayListingView.class);
     }
+
+    @Override
+    public List<StayListingView> getAll() {
+        return this.stayListingRepository.findAll()
+                .stream()
+                .map(e -> modelMapper.map(e, StayListingView.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteById(String id) {
+        this.stayListingRepository.deleteById(id);
+    }
+
+    @Override
+    public StayListing findEntityById(String listingId) {
+        return stayListingRepository.findById(listingId).orElse(null);
+    }
+
+    @Override
+    public StayListing findEntityByTitle(String title) {
+        return this.stayListingRepository.findByListingTitle(title).orElseThrow(NullPointerException::new);
+    }
 }

@@ -95,9 +95,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountServiceModel getAccount(String username) {
+    public AccountServiceModel getAccount(String id) {
         return this.modelMapper.map(accountRepository.
-                findByUsername(username)
+                findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Account not found")), AccountServiceModel.class);
     }
 
