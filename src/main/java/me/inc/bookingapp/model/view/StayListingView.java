@@ -14,6 +14,7 @@ import java.util.List;
 
 public class StayListingView {
     private String id;
+    private String firstPicture;
     private String listingTitle;
     private String country;
     private String city;
@@ -152,6 +153,15 @@ public class StayListingView {
 
     public StayListingView setPricePerNight(BigDecimal pricePerNight) {
         this.pricePerNight = pricePerNight;
+        return this;
+    }
+
+    public String getFirstPicture() {
+        return firstPicture;
+    }
+
+    public StayListingView setFirstPicture(String firstPicture) {
+        this.firstPicture = firstPicture;
         return this;
     }
 }

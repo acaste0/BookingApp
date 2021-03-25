@@ -4,7 +4,6 @@
 
 <head>
     <th:block th:include="~{fragments/head}"></th:block>
-    <script th:src="@{/js/search.js}"></script>
 
 </head>
 <body>
@@ -16,7 +15,8 @@
                 <h6>Search Location</h6>
                 <div class="widget border-0">
                     <div class="locations">
-                        <input id="searchInput" class="form-control" type="search" placeholder="All Locations">
+                        <input id="searchInput" class="form-control" type="search" aria-label="Search"
+                               placeholder="All Locations">
                     </div>
                 </div>
 
@@ -24,19 +24,19 @@
             </div>
         </div>
         <div class="col-lg-9">
-                <div class="col-auto">
-                    <h6 class="mb-0">There are <span class="text-primary"
-                                                     th:text="${stayListings.size()} + ' properties'"></span> on our
-                        website
-                    </h6>
-                </div>
+            <div class="col-auto">
+                <h6 class="mb-0">There are <span class="text-primary"
+                                                 th:text="${stayListings.size()} + ' properties'"></span> on our
+                    website
+                </h6>
+            </div>
 
-            <div class="listingList">
+            <div id="listingList">
                 <div th:each="st : ${stayListings}">
                     <div class="card m-2">
                         <h5 class="card-header text-center" th:text="*{st.listingTitle}"></h5>
                         <div class="card-body">
-                            <img class="float-left mr-3" height="100" th:src="*{st.pictures.get(0).pictureUrl}">
+                            <img class="float-left mr-3" height="125" width="150" th:src="${st.pictures.get(0).pictureUrl}">
                             <h5 class="card-title" th:text="'' + *{st.country} + ', ' + *{st.city}"></h5>
                             <a class="card-text" th:text="'Type - '+  *{st.stayType.getName()}"></a><br>
                             <a class="card-text" th:text="'Available Rooms: '+  *{st.availabilityLeft}"></a><br>
@@ -103,7 +103,7 @@
         </div>
     </div>
 </div>
-
+<script th:src="@{/js/search.js}"></script>
 </body>
 <th:block th:include="~{fragments/footer}"></th:block>
 

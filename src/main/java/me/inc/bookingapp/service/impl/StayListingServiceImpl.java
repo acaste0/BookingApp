@@ -107,7 +107,11 @@ public class StayListingServiceImpl implements StayListingService {
     public List<StayListingView> getAll() {
         return this.stayListingRepository.findAll()
                 .stream()
-                .map(e -> modelMapper.map(e, StayListingView.class))
+                .map(e -> {
+                    StayListingView map = modelMapper.map(e, StayListingView.class);
+                    map.setFirstPicture(e.getPictures().get(0).getPictureUrl());
+                    return map;
+                })
                 .collect(Collectors.toList());
     }
 
