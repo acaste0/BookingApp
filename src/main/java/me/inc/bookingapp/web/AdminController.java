@@ -1,16 +1,20 @@
 package me.inc.bookingapp.web;
 
 import me.inc.bookingapp.model.binding.AccountRoleEditBinding;
+import me.inc.bookingapp.model.service.StayListingServiceModel;
 import me.inc.bookingapp.service.AccountService;
 import me.inc.bookingapp.service.AdminService;
 import me.inc.bookingapp.service.RoleService;
 import me.inc.bookingapp.service.StayListingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/admin")
@@ -41,6 +45,13 @@ public class AdminController {
         modelAndView.addObject("listings", stayListingService.getAll());
         modelAndView.setViewName("/admin/delete-stay-listing");
         return modelAndView;
+    }
+
+    @PostMapping("/listing/stays/delete")
+    public String deleteStayListingConfirm(String id, RedirectAttributes redirectAttributes) {
+        stayListingService.deleteById(id);
+        redirectAttributes.addFlashAttribute("success", true);
+        return "redirect:/admin/listing/stays/delete";
     }
 
     @GetMapping("/role/remove")
@@ -87,12 +98,7 @@ public class AdminController {
 
     }
 
-    @PostMapping("/listing/stays/delete")
-    public String deleteStayListing(String id, RedirectAttributes redirectAttributes) {
-        stayListingService.deleteById(id);
-        redirectAttributes.addFlashAttribute("success", true);
-        return "redirect:/admin/listing/stays/delete";
-    }
+
 
     @PostMapping("/role/remove")
     public String removeRole(AccountRoleEditBinding accountRoleEditBinding,

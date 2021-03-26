@@ -5,15 +5,13 @@ import me.inc.bookingapp.model.entity.enums.ListingType;
 import me.inc.bookingapp.model.entity.enums.StayType;
 import me.inc.bookingapp.model.entity.properties.StayProperties;
 import me.inc.bookingapp.model.service.StayListingServiceModel;
+import me.inc.bookingapp.model.view.StayListingView;
 import me.inc.bookingapp.service.StayListingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -66,18 +64,57 @@ public class StayController {
     }
 
 
+    @GetMapping("/edit/{id}")
+    public ModelAndView editListing(@PathVariable String id,
+                                    Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        StayListingView stay = stayListingService.getByViewId(id);
+        if (!stay.getAddedFrom().equals(principal.getName())) {
+            mav.setViewName("redirect:/account/listings");
+            return mav;
+        }
+
+        mav.addObject("listing", stay);
+        mav.setViewName("stay/edit");
+        return mav;
+    }
+
+
+    @PostMapping("/edit/{id}")
+    public ModelAndView editListingConfirm(StayListingBinding listing,
+                                           BindingResult bindingResult,
+                                           RedirectAttributes redirectAttributes,
+                                           Principal principal, @PathVariable String id) throws IOException {
+        ModelAndView mav = new ModelAndView();
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("listing", listing);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.listing", listing);
+
+            mav.setViewName("redirect:/account/listings");
+            return mav;
+        }
+
+        stayListingService.editListing(listing, id, principal.getName());
+        redirectAttributes.addFlashAttribute("success", true);
+        mav.setViewName("redirect:/account/listings");
+        return mav;
+    }
+
+
+
+
     @PostMapping("/create")
     public ModelAndView createListingConfirm(@Valid StayListingBinding stayBinding,
-                                      BindingResult bindingResult,
-                                      RedirectAttributes redirectAttributes,
-                                      Principal principal) throws IOException {
+                                             BindingResult bindingResult,
+                                             RedirectAttributes redirectAttributes,
+                                             Principal principal) throws IOException {
         ModelAndView mav = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("stayBinding", stayBinding);
             redirectAttributes.
                     addFlashAttribute("org.springframework.validation.BindingResult.stayBinding",
-                    bindingResult);
+                            bindingResult);
 
             mav.setViewName("redirect:/stay/create");
             return mav;

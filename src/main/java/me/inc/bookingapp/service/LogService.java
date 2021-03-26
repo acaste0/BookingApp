@@ -1,6 +1,7 @@
 package me.inc.bookingapp.service;
 
 import me.inc.bookingapp.model.view.AdminLogView;
+import me.inc.bookingapp.model.view.GeneralLogView;
 import me.inc.bookingapp.model.view.ListingLogView;
 
 import java.util.List;
@@ -11,4 +12,8 @@ public interface LogService {
 
     List<ListingLogView> findAllListingLogs();
     List<AdminLogView> findAllAdminLogs();
+
+    void createWebLog(String action);
+
+    List<GeneralLogView> findAllGeneralLogs();
 }

@@ -2,38 +2,35 @@ package me.inc.bookingapp.model.entity;
 
 import me.inc.bookingapp.model.entity.base.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "listing_logs")
 public class ListingLog extends BaseEntity {
 
-    @ManyToOne
-    private Account account;
-    @ManyToOne
-    private StayListing stayListing;
+    @Column(name = "account_username")
+    private String account;
+    @Column(name = "stay_listing_title")
+    private String stayListingTitle;
     @Column(name = "action", nullable = false)
     private String action;
 
-    public Account getAccount() {
+    public String getAccount() {
         return account;
     }
 
-    public ListingLog setAccount(Account account) {
+    public ListingLog setAccount(String account) {
         this.account = account;
         return this;
     }
 
-    public StayListing getStayListing() {
-        return stayListing;
+    public String getStayListingTitle() {
+        return stayListingTitle;
     }
 
-    public ListingLog setStayListing(StayListing stayListing) {
-        this.stayListing = stayListing;
+    public ListingLog setStayListingTitle(String stayListingTitle) {
+        this.stayListingTitle = stayListingTitle;
         return this;
     }
 

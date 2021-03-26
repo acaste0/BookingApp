@@ -7,31 +7,28 @@ import javax.persistence.*;
 @Entity
 @Table(name = "admin_logs")
 public class AdminLog extends BaseEntity {
-
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Account adminAccount;
-    @ManyToOne
-    @JoinColumn(name = "user_account_id")
-    private Account userAccount;
+    @Column(name = "admin_account_username", nullable = false)
+    private String adminAccountUsername;
+    @Column(name = "user_account_username", nullable = false)
+    private String userAccountUsername;
     @Column(name = "action", nullable = false)
     private String action;
 
-    public Account getAdminAccount() {
-        return adminAccount;
+    public String getAdminAccountUsername() {
+        return adminAccountUsername;
     }
 
-    public AdminLog setAdminAccount(Account adminAccount) {
-        this.adminAccount = adminAccount;
+    public AdminLog setAdminAccountUsername(String adminAccountUsername) {
+        this.adminAccountUsername = adminAccountUsername;
         return this;
     }
 
-    public Account getUserAccount() {
-        return userAccount;
+    public String getUserAccountUsername() {
+        return userAccountUsername;
     }
 
-    public AdminLog setUserAccount(Account userAccount) {
-        this.userAccount = userAccount;
+    public AdminLog setUserAccountUsername(String userAccountUsername) {
+        this.userAccountUsername = userAccountUsername;
         return this;
     }
 

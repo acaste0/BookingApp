@@ -4,6 +4,7 @@ import me.inc.bookingapp.model.binding.ListingStartBinding;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ public class ListingController {
     public ListingStartBinding listingSetup() {
         return new ListingStartBinding();
     }
+
 
     @PostMapping("/type/submit")
     public ModelAndView listingStartSubmit(ListingStartBinding listingSetup,

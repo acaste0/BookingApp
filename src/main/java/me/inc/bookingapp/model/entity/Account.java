@@ -42,6 +42,9 @@ public class Account extends BaseEntity {
     @OneToMany(mappedBy = "addedFrom")
     private List<StayListing> stayListings;
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<BookStay> stayBookings;
+
 
     public Account() {
     }
@@ -151,6 +154,15 @@ public class Account extends BaseEntity {
 
     public Account setStayListings(List<StayListing> stayListings) {
         this.stayListings = stayListings;
+        return this;
+    }
+
+    public List<BookStay> getStayBookings() {
+        return stayBookings;
+    }
+
+    public Account setStayBookings(List<BookStay> stayBookings) {
+        this.stayBookings = stayBookings;
         return this;
     }
 }

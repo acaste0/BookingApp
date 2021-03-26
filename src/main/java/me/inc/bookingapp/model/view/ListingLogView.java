@@ -5,7 +5,7 @@ import java.time.Instant;
 public class ListingLogView {
 
     private String id;
-    private String username;
+    private String account;
     private String action;
     private String listingTitle;
     private Instant createdOn;
@@ -19,12 +19,12 @@ public class ListingLogView {
         return this;
     }
 
-    public String getUsername() {
-        return username;
+    public String getAccount() {
+        return account;
     }
 
-    public ListingLogView setUsername(String username) {
-        this.username = username;
+    public ListingLogView setAccount(String account) {
+        this.account = account;
         return this;
     }
 

@@ -2,6 +2,7 @@ package me.inc.bookingapp.config.aop;
 import me.inc.bookingapp.model.binding.AccountRoleEditBinding;
 import me.inc.bookingapp.model.binding.StayListingBinding;
 import me.inc.bookingapp.model.entity.StayListing;
+import me.inc.bookingapp.model.view.AccountViewModel;
 import me.inc.bookingapp.service.LogService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -22,12 +23,37 @@ public class LogAspect {
     @Pointcut("execution(* me.inc.bookingapp.web.StayController.createListingConfirm(..))")
     public void createListingPointcut(){};
 
+    @Pointcut("within(me.inc.bookingapp.web..*)")
+    public void webPointcut(){};
+
 
     @Pointcut("execution(* me.inc.bookingapp.web.AdminController.addRole(..))")
     public void addRolePointcut(){};
 
+
+    @Pointcut("execution(* me.inc.bookingapp.web.AdminController.removeRole(..))")
+    public void removeRolePointcut(){};
+
+    @After("webPointcut()")
+    public void createWebLog(JoinPoint joinPoint){
+        String action = joinPoint.getSignature().getName();
+
+        logService.createWebLog(action);
+    }
+
+    @After("removeRolePointcut()")
+    public void createRoleChangeLog1(JoinPoint joinPoint){
+
+        Object[] args = joinPoint.getArgs();
+        AccountRoleEditBinding roleBinding = (AccountRoleEditBinding) args[0];
+        String accountUsername = roleBinding.getUsername();
+        String action = joinPoint.getSignature().getName();
+
+        logService.createRoleChangeLog(action, accountUsername);
+    }
+
     @After("addRolePointcut()")
-    public void createRoleChangeLog(JoinPoint joinPoint){
+    public void createRoleChangeLog2(JoinPoint joinPoint){
 
         Object[] args = joinPoint.getArgs();
         AccountRoleEditBinding roleBinding = (AccountRoleEditBinding) args[0];
@@ -47,4 +73,6 @@ public class LogAspect {
 
         logService.createStayListingLog(action, listingTitle);
     }
+
+
 }

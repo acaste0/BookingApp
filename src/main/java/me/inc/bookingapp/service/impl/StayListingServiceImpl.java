@@ -1,26 +1,24 @@
 package me.inc.bookingapp.service.impl;
 
-import com.cloudinary.Cloudinary;
+import me.inc.bookingapp.model.binding.StayListingBinding;
 import me.inc.bookingapp.model.binding.StayPropertiesBinding;
 import me.inc.bookingapp.model.entity.Account;
 import me.inc.bookingapp.model.entity.Picture;
 import me.inc.bookingapp.model.entity.StayListing;
+import me.inc.bookingapp.model.entity.properties.StayProperties;
 import me.inc.bookingapp.model.service.StayListingServiceModel;
 import me.inc.bookingapp.model.view.StayListingView;
+import me.inc.bookingapp.repository.PicturesRepository;
+import me.inc.bookingapp.repository.StayPropertiesRepository;
 import me.inc.bookingapp.service.AccountService;
 import me.inc.bookingapp.service.CloudService;
 import me.inc.bookingapp.service.StayListingService;
 import me.inc.bookingapp.repository.StayListingRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,12 +31,14 @@ public class StayListingServiceImpl implements StayListingService {
     private final CloudService cloudService;
     private final AccountService accountService;
     private final StayListingRepository stayListingRepository;
+    private final PicturesRepository picturesRepository;
     private final ModelMapper modelMapper;
 
-    public StayListingServiceImpl(CloudService cloudService, AccountService accountService, StayListingRepository stayListingRepository, ModelMapper modelMapper) {
+    public StayListingServiceImpl(CloudService cloudService, AccountService accountService, StayListingRepository stayListingRepository, PicturesRepository picturesRepository, ModelMapper modelMapper) {
         this.cloudService = cloudService;
         this.accountService = accountService;
         this.stayListingRepository = stayListingRepository;
+        this.picturesRepository = picturesRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -56,18 +56,6 @@ public class StayListingServiceImpl implements StayListingService {
 
     }
 
-    private List<Picture> mapPictures(MultipartFile[] pictures, StayListing listing) throws IOException {
-        List<Picture> list = new ArrayList<>();
-        if (pictures == null || pictures.length == 0 || Objects.equals(pictures[0].getOriginalFilename(), "")) {
-//            File file = ResourceUtils.getFile("classpath:/static/img/noPhoto.png");
-            list.add(new Picture().setPictureUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png").setListing(listing));
-            return list;
-        }
-        for (MultipartFile picture : pictures) {
-            list.add(new Picture().setPictureUrl(cloudService.upload(picture)).setListing(listing));
-        }
-        return list;
-    }
 
     @Override
     public boolean titleAvailability(String title) {
@@ -95,12 +83,15 @@ public class StayListingServiceImpl implements StayListingService {
     }
 
     @Override
-    public StayListingView getById(String id) {
+    public StayListingView getByViewId(String id) {
         Optional<StayListing> sl = stayListingRepository.findById(id);
         if (sl.isEmpty())
             return null;
 
-        return modelMapper.map(sl.get(), StayListingView.class);
+
+        StayListingView returnView = modelMapper.map(sl.get(), StayListingView.class);
+        returnView.setAddedFrom(sl.get().getAddedFrom().getUsername());
+        return returnView;
     }
 
     @Override
@@ -129,4 +120,67 @@ public class StayListingServiceImpl implements StayListingService {
     public StayListing findEntityByTitle(String title) {
         return this.stayListingRepository.findByListingTitle(title).orElseThrow(NullPointerException::new);
     }
+
+    @Override
+    public void editListing(StayListingBinding binding, String id, String username) throws IOException {
+        StayListing listing = stayListingRepository.getOne(id);
+
+        listing.setStayProperties(updateListingProperties(listing.getStayProperties(), binding));
+        listing.setListingTitle(binding.getListingTitle());
+        listing.setStayType(binding.getStayType());
+        listing.setCity(binding.getCity());
+        listing.setAddress(binding.getAddress());
+        listing.setAvailabilityLeft(binding.getAvailabilityLeft());
+        listing.setPricePerNight(binding.getPricePerNight());
+
+        if (binding.getPictures().length > 1) {
+            List<Picture> p = picturesRepository.findAllByListing(listing);
+            picturesRepository.deleteAll(p);
+            listing.setPictures(mapPictures(binding.getPictures(), listing));
+        }
+
+        stayListingRepository.save(listing);
+
+    }
+
+    @Override
+    public List<StayListingView> getRecentlyAdded() {
+        return stayListingRepository.getLastThreeRecentlyAdded().stream()
+                .map(e -> modelMapper.map(e, StayListingView.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public StayListing getById(String id) {
+        return this.stayListingRepository.getOne(id);
+    }
+
+    private StayProperties updateListingProperties(StayProperties listing, StayListingBinding stayBinding) {
+        StayProperties stayPropertiesBinding = stayBinding.getStayProperties();
+        listing.setAllInclusive(stayPropertiesBinding.isAllInclusive());
+        listing.setHasAirConditioning(stayPropertiesBinding.isHasAirConditioning());
+        listing.setHasBathroom(stayPropertiesBinding.isHasBathroom());
+        listing.setHasBedroom(stayPropertiesBinding.isHasBedroom());
+        listing.setHasCityView(stayPropertiesBinding.isHasCityView());
+        listing.setHasElevator(stayPropertiesBinding.isHasElevator());
+        listing.setHasKitchen(stayPropertiesBinding.isHasKitchen());
+        listing.setHasRestaurant(stayPropertiesBinding.isHasRestaurant());
+        listing.setHasTV(stayPropertiesBinding.isHasTV());
+        listing.setHasWifi(stayPropertiesBinding.isHasWifi());
+        return listing;
+    }
+
+
+    private List<Picture> mapPictures(MultipartFile[] pictures, StayListing listing) throws IOException {
+        List<Picture> list = new ArrayList<>();
+        if (pictures == null || pictures.length == 0 || Objects.equals(pictures[0].getOriginalFilename(), "")) {
+            list.add(new Picture().setPictureUrl("https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/480px-No_image_available.svg.png").setListing(listing));
+            return list;
+        }
+        for (MultipartFile picture : pictures) {
+            list.add(new Picture().setPictureUrl(cloudService.upload(picture)).setListing(listing));
+        }
+        return list;
+    }
+
 }

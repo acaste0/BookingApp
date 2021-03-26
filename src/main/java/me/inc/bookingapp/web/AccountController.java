@@ -46,13 +46,21 @@ public class AccountController {
         return mav;
     }
 
+    @GetMapping("/bookings")
+    public ModelAndView accountBookings(Principal principal) {
+        ModelAndView mav = new ModelAndView("account/account-bookings");
+        mav.addObject("bookings", accountService.getBookings(principal.getName()));
+
+        return mav;
+    }
+
     @GetMapping("/edit")
     public ModelAndView accountEdit(Model model, Principal principal) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("accountView", accountView(principal.getName()));
         if (!model.containsAttribute("accountEditForm"))
             modelAndView.addObject("accountEditForm", accountEditBinding(principal.getName()));
-        modelAndView.setViewName("/account/account-edit");
+        modelAndView.setViewName("account/account-edit");
 
         return modelAndView;
     }
@@ -147,11 +155,11 @@ public class AccountController {
     }
 
     public AccountEditBinding accountEditBinding(String username) {
-        return modelMapper.map(accountService.getAccount(username), AccountEditBinding.class);
+        return modelMapper.map(accountService.getAccountByUsername(username), AccountEditBinding.class);
     }
 
     public AccountViewModel accountView(String username) {
-        return modelMapper.map(accountService.getAccount(username), AccountViewModel.class);
+        return modelMapper.map(accountService.getAccountByUsername(username), AccountViewModel.class);
     }
 
 }

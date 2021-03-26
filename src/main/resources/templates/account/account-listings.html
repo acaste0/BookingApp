@@ -15,6 +15,9 @@
     <div th:if="${successListingAdd}" class="alert alert-success">
         <strong>Success!</strong> You have added new listing!
     </div>
+    <div th:if="${success}" class="alert alert-success">
+        <strong>Success!</strong> You have updated your listing!
+    </div>
     <hr>
     <div th:each="st : ${stayListings}">
         <div class="card m-2">

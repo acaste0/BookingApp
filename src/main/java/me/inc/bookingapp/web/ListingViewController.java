@@ -30,7 +30,7 @@ public class ListingViewController {
     @GetMapping("/stay/view/{id}")
     public ModelAndView viewAllStays(@PathVariable String id){
         ModelAndView mav = new ModelAndView("/stay/view");
-        StayListingView sl = stayListingService.getById(id);
+        StayListingView sl = stayListingService.getByViewId(id);
         if (sl == null) {
             mav.setStatus(HttpStatus.NOT_FOUND);
             return mav;

@@ -3,15 +3,15 @@ package me.inc.bookingapp.service.impl;
 import me.inc.bookingapp.model.binding.AccountEditBinding;
 import me.inc.bookingapp.model.entity.Account;
 import me.inc.bookingapp.model.entity.AccountRole;
-import me.inc.bookingapp.model.entity.StayListing;
+import me.inc.bookingapp.model.entity.BookStay;
 import me.inc.bookingapp.model.entity.enums.Role;
 import me.inc.bookingapp.model.service.AccountServiceModel;
 import me.inc.bookingapp.model.view.AccountViewModel;
 import me.inc.bookingapp.model.view.StayListingView;
 import me.inc.bookingapp.repository.AccountRepository;
 import me.inc.bookingapp.repository.AccountRoleRepository;
+import me.inc.bookingapp.repository.BookStayRepository;
 import me.inc.bookingapp.service.AccountService;
-import me.inc.bookingapp.service.StayListingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,7 +21,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,13 +30,15 @@ public class AccountServiceImpl implements AccountService {
 
     private final AppAccountService appAccountService;
     private final AccountRoleRepository accountRoleRepository;
+    private final BookStayRepository bookStayRepository;
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
-    public AccountServiceImpl(AppAccountService appAccountService, AccountRoleRepository accountRoleRepository, AccountRepository accountRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+    public AccountServiceImpl(AppAccountService appAccountService, AccountRoleRepository accountRoleRepository, BookStayRepository bookStayRepository, AccountRepository accountRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
         this.appAccountService = appAccountService;
         this.accountRoleRepository = accountRoleRepository;
+        this.bookStayRepository = bookStayRepository;
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
@@ -114,6 +115,19 @@ public class AccountServiceImpl implements AccountService {
                 collect(Collectors.toList());
 
     }
+
+    @Override
+    public AccountServiceModel getAccountByUsername(String username) {
+        return this.modelMapper.map(accountRepository.
+                findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Account not found")), AccountServiceModel.class);
+    }
+
+    @Override
+    public List<BookStay> getBookings(String accountUsername) {
+        return accountRepository.getAccountByUsername(accountUsername).getStayBookings();
+    }
+
 
     private void loadAndSave(Account acc) {
         UserDetails userDetails = appAccountService.loadUserByUsername(acc.getEmail());

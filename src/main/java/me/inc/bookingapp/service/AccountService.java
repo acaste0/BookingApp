@@ -2,6 +2,7 @@ package me.inc.bookingapp.service;
 
 import me.inc.bookingapp.model.binding.AccountEditBinding;
 import me.inc.bookingapp.model.entity.Account;
+import me.inc.bookingapp.model.entity.BookStay;
 import me.inc.bookingapp.model.entity.StayListing;
 import me.inc.bookingapp.model.service.AccountServiceModel;
 import me.inc.bookingapp.model.view.AccountViewModel;
@@ -26,4 +27,8 @@ public interface AccountService {
     Account getAccountEntity(String username);
 
     List<StayListingView> getAllAccountListings(String username);
+
+    AccountServiceModel getAccountByUsername(String username);
+
+    List<BookStay> getBookings(String accountUsername);
 }

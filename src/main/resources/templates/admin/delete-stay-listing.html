@@ -22,7 +22,9 @@
                 <label for="listing">Select Listing</label>
 
                 <select class="form-control" name="id" id="listing" required>
-                    <option th:each="l : ${listings}" th:value="${l.getId()}" th:text="${l.listingTitle}"></option>
+                    <option th:each="l : ${listings}" name="id"
+                            th:value="${l.id}" th:name="${l.id}"
+                            th:text="${l.listingTitle}"></option>
                 </select>
 
 

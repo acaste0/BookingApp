@@ -1,13 +1,15 @@
-package me.inc.bookingapp.service;
+package me.inc.bookingapp.service.impl;
 
-import me.inc.bookingapp.model.entity.Account;
-import me.inc.bookingapp.model.entity.AdminLog;
-import me.inc.bookingapp.model.entity.ListingLog;
-import me.inc.bookingapp.model.entity.StayListing;
+import me.inc.bookingapp.model.entity.*;
 import me.inc.bookingapp.model.view.AdminLogView;
+import me.inc.bookingapp.model.view.GeneralLogView;
 import me.inc.bookingapp.model.view.ListingLogView;
 import me.inc.bookingapp.repository.AdminLogRepository;
+import me.inc.bookingapp.repository.GeneralLogRepository;
 import me.inc.bookingapp.repository.ListingLogRepository;
+import me.inc.bookingapp.service.AccountService;
+import me.inc.bookingapp.service.LogService;
+import me.inc.bookingapp.service.StayListingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,13 +23,15 @@ public class LogServiceImpl implements LogService {
 
     private final AccountService accountService;
     private final StayListingService stayListingService;
+    private final GeneralLogRepository generalLogRepository;
     private final AdminLogRepository adminLogRepository;
     private final ListingLogRepository listingLogRepository;
     private final ModelMapper modelMapper;
 
-    public LogServiceImpl(AccountService accountService, StayListingService stayListingService, AdminLogRepository adminLogRepository, ListingLogRepository listingLogRepository, ModelMapper modelMapper) {
+    public LogServiceImpl(AccountService accountService, StayListingService stayListingService, GeneralLogRepository generalLogRepository, AdminLogRepository adminLogRepository, ListingLogRepository listingLogRepository, ModelMapper modelMapper) {
         this.accountService = accountService;
         this.stayListingService = stayListingService;
+        this.generalLogRepository = generalLogRepository;
         this.adminLogRepository = adminLogRepository;
         this.listingLogRepository = listingLogRepository;
         this.modelMapper = modelMapper;
@@ -39,14 +43,33 @@ public class LogServiceImpl implements LogService {
         return adminLogRepository
                 .findAll()
                 .stream()
-                .map(logEntity -> {
-                    AdminLogView adminLogView = modelMapper
-                            .map(logEntity, AdminLogView.class);
-                    adminLogView.setAdminAccountUsername(logEntity.getAdminAccount().getUsername())
-                            .setUserAccountUsername(logEntity.getUserAccount().getUsername());
-                    return adminLogView;
-                })
+                .map(logEntity -> modelMapper
+                        .map(logEntity, AdminLogView.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void createWebLog(String action) {
+        Authentication authentication = getAuthentication();
+        String username = authentication.getName().
+                equals("anonymousUser") ? "not logged" : authentication.getName();
+
+        GeneralLog generalLog = new GeneralLog().
+                setAccount(username).
+                setAction(action);
+
+        generalLogRepository.save(generalLog);
+    }
+
+    @Override
+    public List<GeneralLogView> findAllGeneralLogs() {
+        return generalLogRepository
+                .findAll()
+                .stream()
+                .map(logEntity -> modelMapper
+                        .map(logEntity, GeneralLogView.class))
+                .collect(Collectors.toList());
+
     }
 
 
@@ -58,8 +81,8 @@ public class LogServiceImpl implements LogService {
 
 
         ListingLog listingLog = new ListingLog().
-                setStayListing(listing).
-                setAccount(account).
+                setStayListingTitle(listing.getListingTitle()).
+                setAccount(account.getUsername()).
                 setAction(action);
 
         listingLogRepository.save(listingLog);
@@ -75,10 +98,10 @@ public class LogServiceImpl implements LogService {
     public void createRoleChangeLog(String action, String userAccountUsername) {
         Authentication authentication = getAuthentication();
 
-        Account adminAccount = accountService.getAccountEntity(authentication.getName());
-        Account userAccount = accountService.getAccountEntity(userAccountUsername);
+        AdminLog adminLog = new AdminLog().setAdminAccountUsername(authentication.getName())
+                .setUserAccountUsername(userAccountUsername)
+                .setAction(action);
 
-        AdminLog adminLog = new AdminLog().setAdminAccount(adminAccount).setUserAccount(userAccount).setAction(action);
         adminLogRepository.save(adminLog);
 
     }
@@ -88,12 +111,8 @@ public class LogServiceImpl implements LogService {
         return listingLogRepository
                 .findAll()
                 .stream()
-                .map(logEntity -> {
-                    ListingLogView listingLogView = modelMapper
-                            .map(logEntity, ListingLogView.class);
-                    listingLogView.setUsername(logEntity.getAccount().getUsername());
-                    return listingLogView;
-                })
+                .map(logEntity -> modelMapper
+                        .map(logEntity, ListingLogView.class))
                 .collect(Collectors.toList());
     }
 }

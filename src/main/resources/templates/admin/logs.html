@@ -10,6 +10,8 @@
             src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
 
     <script th:src="@{/js/getAllAdminLogs.js}"></script>
+    <script th:src="@{/js/getAllListingLogs.js}"></script>
+    <script th:src="@{/js/getGeneralLogs.js}"></script>
 
 </head>
 <body>
@@ -27,6 +29,9 @@
                         <button id="getAllListingLogs" type="button" class="list-group-item list-group-item-action">
                             Listings
                         </button>
+                        <button id="getAllLogs" type="button" class="list-group-item list-group-item-action">
+                            General Logs
+                        </button>
                     </div>
                 </div>
 
@@ -34,23 +39,8 @@
         </div>
         <div class="col-lg-9">
             <div id="getResultDiv">
-<!--                <table class="table">-->
-<!--                    <thead>-->
-<!--                    <tr>-->
-<!--                        <th scope="col">Admin username</th>-->
-<!--                        <th scope="col">Action</th>-->
-<!--                        <th scope="col">User username</th>-->
-<!--                        <th scope="col">Time</th>-->
-<!--                    </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody>-->
-
-<!--                    </tbody>-->
-<!--                </table>-->
 
             </div>
-
-
         </div>
     </div>
 </div>

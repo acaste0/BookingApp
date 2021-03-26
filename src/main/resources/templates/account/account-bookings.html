@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+
+
+<div class="container">
+    <h1 class="text-center mb-3 font-weight-bold text-capitalize">My Bookings</h1>
+
+    <div th:if="${success}" class="alert alert-success">
+        <strong>Success!</strong> You have updated your listing!
+    </div>
+    <hr>
+    <div th:each="book : ${bookings}">
+        <div class="card m-2">
+            <div class="card-body">
+                <img class="float-left mr-3" height="175" th:src="${book.getListing().getPictures().get(0).pictureUrl}">
+                <h5 class="font-weight-bold" th:text="${book.getListing().listingTitle}"></h5>
+                <h5 class="card-title" th:text="'' + ${book.getListing().getCountry()} + ', ' + ${book.getListing().getCity()}"></h5>
+                <a class="card-text" th:text="'Type - '+  ${book.getListing().stayType.getName()}"></a><br>
+                <a class="card-text" th:text="'Price per night: '+  ${book.getListing().pricePerNight} + 'lv.'"></a><br><br>
+                <a class="card-text float-right font-weight-bold" th:text="'Check In: '+  ${book.checkIn}"></a><br>
+                <a class="card-text float-right font-weight-bold" th:text="'Check Out: '+  ${book.checkOut}"></a><br>
+
+
+                <hr>
+                <a th:href="@{'/stay/view/' + ${book.getListing().id}+''}" class="btn btn-info btn-block">View this Listing</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
