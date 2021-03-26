@@ -54,18 +54,32 @@
                 </div>
 
                 <form method="post" th:object="${book}" th:action="@{'/account/book/stay/' + ${stayListing.id}}">
-                    <div class="col-auto">
-                        <div class="text-center">
-                            <label for="check-in" class="font-weight-bold">Check In</label>
-                            <input type="date" id="check-in" th:field="${book.checkIn}" th:value="${book.checkIn}">
-                            <label for="check-out" class="font-weight-bold">Check Out</label>
-                            <input type="date" id="check-out" th:field="${book.checkOut}"
-                                   th:value="${book.checkOut}">
-                           <br>
-                            <label for="guests" class="font-weight-bold">Guests</label>
-                            <input type="number" id="guests" th:field="${book.guests}" placeholder="asd">
-                            <hr>
-                            <button type="submit" class="btn btn-outline-primary btn-block">Book</button>
+                    <div class="justify-content-center">
+                        <div class="row">
+                            <div class="col-3 m-auto">
+                                <label for="check-in" class="font-weight-bold">Check In</label>
+                                <input class="form-control " type="date" id="check-in"
+                                       th:field="${book.checkIn}" th:value="${book.checkIn}">
+                                <small th:if="${#fields.hasErrors('checkIn')}" th:errors="*{checkIn}" class="text-danger">
+                                </small>
+
+                            </div>
+                            <div class="col-3 m-auto">
+                                <label for="check-out" class="font-weight-bold">Check Out</label>
+                                <input class="form-control" type="date" id="check-out"
+                                       th:field="${book.checkOut}"
+                                       th:value="${book.checkOut}">
+                                <small th:if="${#fields.hasErrors('checkOut')}" th:errors="*{checkOut}" class="text-danger">
+                                </small>
+                            </div>
+                            <div class="col-3 m-auto">
+                                <label for="guests" class="font-weight-bold">Guests</label>
+                                <input class="form-control m-auto" type="number" id="guests"
+                                       th:field="${book.guests}">
+                                <small th:if="${#fields.hasErrors('guests')}" th:errors="*{guests}" class="text-danger">
+                                </small>
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary btn-block mt-5">Book</button>
                         </div>
                     </div>
                 </form>

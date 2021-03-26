@@ -7,6 +7,7 @@ import me.inc.bookingapp.service.BookingService;
 import me.inc.bookingapp.service.StayListingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @Controller
@@ -33,11 +35,12 @@ public class BookController {
 
 
     @GetMapping("/stay/{id}")
-    public ModelAndView bookStay(@PathVariable String id) {
+    public ModelAndView bookStay(@PathVariable String id, Model model) {
         ModelAndView modelAndView = new ModelAndView();
         StayListingView stay = stayListingService.getByViewId(id);
 
         modelAndView.addObject("stayListing", stay);
+        if (!model.containsAttribute("book"))
         modelAndView.addObject("book", new BookStayBinding());
 
         modelAndView.setViewName("stay/book");
@@ -46,7 +49,7 @@ public class BookController {
     }
 
     @PostMapping("/stay/{id}")
-    public ModelAndView bookStayConfirm(@PathVariable String id, BookStayBinding book, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal) {
+    public ModelAndView bookStayConfirm(@PathVariable String id, @Valid BookStayBinding book, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal) {
         ModelAndView modelAndView = new ModelAndView();
 
         if (bindingResult.hasErrors()) {
