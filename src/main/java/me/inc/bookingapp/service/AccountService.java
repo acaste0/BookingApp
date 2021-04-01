@@ -3,7 +3,6 @@ package me.inc.bookingapp.service;
 import me.inc.bookingapp.model.binding.AccountEditBinding;
 import me.inc.bookingapp.model.entity.Account;
 import me.inc.bookingapp.model.entity.BookStay;
-import me.inc.bookingapp.model.entity.StayListing;
 import me.inc.bookingapp.model.service.AccountServiceModel;
 import me.inc.bookingapp.model.view.AccountViewModel;
 import me.inc.bookingapp.model.view.StayListingView;
@@ -30,5 +29,4 @@ public interface AccountService {
 
     AccountServiceModel getAccountByUsername(String username);
 
-    List<BookStay> getBookings(String accountUsername);
 }

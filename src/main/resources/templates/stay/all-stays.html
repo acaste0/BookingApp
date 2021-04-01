@@ -42,7 +42,7 @@
                             <a class="card-text" th:text="'Available Rooms: '+  *{st.availabilityLeft}"></a><br>
                             <a class="card-text" th:text="'Price per night: '+  *{st.pricePerNight}"></a>
                             <a class="card-text float-right"
-                               th:text="${#dates.format(st.createdOn, 'dd-MMM-yyyy HH:mm')}"></a>
+                               th:text="${#dates.format(st.createdOn, 'dd-MM-yyyy HH:mm')}"></a>
                             <hr>
                             <div class="text-center">
                                 <h6 class="font-weight-bold">Stay Properties</h6>
@@ -71,6 +71,12 @@
                                         <li class="list-group-item"
                                             th:text="*{st.stayProperties.hasCityView} ? '✔ City View' : '✖ City View'"></li>
                                     </ul>
+                                    <ul class="list-group col-auto">
+                                        <li class="list-group-item"
+                                            th:text="*{st.stayProperties.allInclusive} ? '✔ All Inclusive' : '✖ All Inclusive'"></li>
+                                        <li class="list-group-item"
+                                            th:text="*{st.stayProperties.hasElevator} ? '✔ Elevator' : '✖ Elevator'"></li>
+                                    </ul>
                                 </div>
                             </div>
                             <hr>
@@ -85,20 +91,20 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-12 text-center mt-4 mt-sm-5">
-                        <ul class="pagination justify-content-center mb-0">
-                            <li class="page-item disabled"><span class="page-link">Prev</span></li>
-                            <li class="page-item active" aria-current="page"><span class="page-link">1 </span> <span
-                                    class="sr-only">(current)</span></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">...</a></li>
-                            <li class="page-item"><a class="page-link" href="#">25</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </div>
-                </div>
+<!--                <div class="row">-->
+<!--                    <div class="col-12 text-center mt-4 mt-sm-5">-->
+<!--                        <ul class="pagination justify-content-center mb-0">-->
+<!--                            <li class="page-item disabled"><span class="page-link">Prev</span></li>-->
+<!--                            <li class="page-item active" aria-current="page"><span class="page-link">1 </span> <span-->
+<!--                                    class="sr-only">(current)</span></li>-->
+<!--                            <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--                            <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--                            <li class="page-item"><a class="page-link" href="#">...</a></li>-->
+<!--                            <li class="page-item"><a class="page-link" href="#">25</a></li>-->
+<!--                            <li class="page-item"><a class="page-link" href="#">Next</a></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
         </div>
     </div>

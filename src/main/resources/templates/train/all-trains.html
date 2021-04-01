@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-9 m-auto">
+            <div class="col-auto">
+                <h6 class="mb-0">There are <span class="text-primary"
+                                                 th:text="${trains.size()} + ' trains'"></span> available on our
+                    website
+                </h6>
+            </div>
+
+            <div class="row">
+                    <div class="col-sm-6" th:each="t : ${trains}">
+                        <div class="card">
+                            <div class="card-body"> <h5 class="card-title text-center mb-4" th:text="'' + *{t.listingTitle}"></h5>
+                                <h5 class="card-text" th:text="''+  *{t.from} + '  ➜  '+  *{t.to}">"</h5>
+                                <p class="card-text" th:text="'Country: ' + *{t.country}"> </p>
+                                <a class="card-text"
+                                   th:text=" 'Leave in: ' + ${#temporals.hour(t.leave)}
+                                + ':' + ${#temporals.minute(t.leave)} + ' on ' + ${#temporals.monthName(t.leave)} + ' of ' +
+                                 ${#temporals.day(t.leave)}"></a><br>
+                                <p class="card-text"
+                                   th:text=" 'Arrive on: ' + ${#temporals.hour(t.arrive)}
+                                + ':' + ${#temporals.minute(t.arrive)} + ' on ' + ${#temporals.monthName(t.arrive)} + ' of ' +
+                                 ${#temporals.day(t.arrive)}"></p>
+
+
+                                <p class="card-text text-center h6"
+                                   th:text="'Ticket price: $'+  *{t.ticketPrice}"></p>
+                            <form th:action="@{'/account/book/train/' + ${t.id}}" method="post">
+                                <button type="submit" class="btn btn-outline-primary btn-block">Book
+                                    this Train</button>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-12 text-center mt-4 mt-sm-5">
+                <ul class="pagination justify-content-center mb-0">
+                    <li class="page-item disabled"><span class="page-link">Prev</span></li>
+                    <li class="page-item active" aria-current="page"><span class="page-link">1 </span> <span
+                            class="sr-only">(current)</span></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">...</a></li>
+                    <li class="page-item"><a class="page-link" href="#">25</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script th:src="@{/js/search.js}"></script>
+</body>
+<th:block th:include="~{fragments/footer}"></th:block>
+
+</html>

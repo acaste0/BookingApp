@@ -12,7 +12,7 @@ public abstract class BaseEntity {
     @Id
     @GeneratedValue(generator="system-uuid")
     @GenericGenerator(name="system-uuid", strategy = "uuid")
-    @Column(name = "uuid", unique = true)
+    @Column(name = "id", unique = true)
     private String id;
 
     @Column(name = "created_on")

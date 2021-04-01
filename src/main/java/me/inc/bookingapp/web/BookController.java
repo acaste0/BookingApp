@@ -2,9 +2,11 @@ package me.inc.bookingapp.web;
 
 import me.inc.bookingapp.model.binding.BookStayBinding;
 import me.inc.bookingapp.model.entity.BookStay;
+import me.inc.bookingapp.model.entity.TrainBook;
 import me.inc.bookingapp.model.view.StayListingView;
 import me.inc.bookingapp.service.BookingService;
 import me.inc.bookingapp.service.StayListingService;
+import me.inc.bookingapp.service.TrainListingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,11 +27,13 @@ public class BookController {
 
     private final BookingService bookingService;
     private final StayListingService stayListingService;
+    private final TrainListingService trainListingService;
     private final ModelMapper modelMapper;
 
-    public BookController(BookingService bookingService, StayListingService stayListingService, ModelMapper modelMapper) {
+    public BookController(BookingService bookingService, StayListingService stayListingService, TrainListingService trainListingService, ModelMapper modelMapper) {
         this.bookingService = bookingService;
         this.stayListingService = stayListingService;
+        this.trainListingService = trainListingService;
         this.modelMapper = modelMapper;
     }
 
@@ -41,7 +45,7 @@ public class BookController {
 
         modelAndView.addObject("stayListing", stay);
         if (!model.containsAttribute("book"))
-        modelAndView.addObject("book", new BookStayBinding());
+            modelAndView.addObject("book", new BookStayBinding());
 
         modelAndView.setViewName("stay/book");
 
@@ -64,7 +68,20 @@ public class BookController {
 
         bookingService.bookStay(modelMapper.map(book, BookStay.class), id, principal.getName());
         redirectAttributes.addFlashAttribute("success", true);
-        modelAndView.setViewName("redirect:/account/bookings");
+        redirectAttributes.addFlashAttribute("name", stayListingService.getById(id).getListingTitle());
+        modelAndView.setViewName("redirect:/account/bookings/stay");
+
+        return modelAndView;
+    }
+
+    @PostMapping("/train/{id}")
+    public ModelAndView trainBook(@PathVariable String id, RedirectAttributes redirectAttributes, Principal principal) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        bookingService.bookTrain(modelMapper.map(trainListingService.getById(id), TrainBook.class), id, principal.getName());
+        redirectAttributes.addFlashAttribute("success", true);
+        redirectAttributes.addFlashAttribute("name", trainListingService.getTrainViewById(id).getListingTitle());
+        modelAndView.setViewName("redirect:/account/bookings/trains");
 
         return modelAndView;
     }

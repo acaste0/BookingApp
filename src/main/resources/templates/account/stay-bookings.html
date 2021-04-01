@@ -11,10 +11,10 @@
 
 
 <div class="container">
-    <h1 class="text-center mb-3 font-weight-bold text-capitalize">My Bookings</h1>
+    <h1 class="text-center mb-3 font-weight-bold text-capitalize">My Stay Bookings</h1>
 
     <div th:if="${success}" class="alert alert-success">
-        <strong>Success!</strong> You have updated your listing!
+        <strong>0!</strong> You have successfully booked stay! <a th:text="${name}"></a>
     </div>
     <hr>
     <div th:each="book : ${bookings}">

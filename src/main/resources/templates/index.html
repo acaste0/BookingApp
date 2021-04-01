@@ -10,7 +10,9 @@
 
 <img class="img-fluid" style="position: absolute; " src="https://i.imgur.com/dibcEgw.jpg">
 <div class="container-fluid">
-
+    <div th:if="${successfulRegistration}" class="alert alert-success">
+        <strong>Welcome!</strong> You successfully created account!
+    </div>
     <div class="row">
         <div class="col-5" style="margin-left: 5%; margin-top: 5%; margin-bottom: 7%">
             <p class="text-light display-3 font-weight-bold p-5" style="font-size: 5.0vw;">Your
@@ -57,7 +59,7 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <a class="card-text float-right"
+                                <a class="card-text"
                                    th:text="${#dates.format(l.createdOn, 'dd-MMM-yyyy HH:mm')}"></a>
                                 <br>
                                 <a class="justify-content-center btn btn-outline-primary"

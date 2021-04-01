@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+
+
+<div class="container">
+    <h1 class="text-center mb-3 font-weight-bold text-capitalize">My Train Bookings</h1>
+
+    <div th:if="${success}" class="alert alert-success">
+        <strong>Congratulations!</strong> You have successfully booked train! <a th:text="${name}"></a>
+    </div>
+    <hr>
+    <div th:each="book : ${bookings}">
+        <div class="card m-2">
+            <div class="card-body"> <h5 class="card-title text-center mb-4" th:text="'' + ${book.train.listingTitle}"></h5>
+                <h5 class="card-text" th:text="''+  *{book.train.from} + '  ➜  '+  *{book.train.to}">"</h5>
+                <p class="card-text" th:text="'Country: ' + *{book.train.country}"> </p>
+                <a class="card-text"
+                   th:text=" 'Leave in: ' + ${#temporals.hour(book.train.leave)}
+                                + ':' + ${#temporals.minute(book.train.leave)} + ' on ' + ${#temporals.monthName(book.train.leave)} + ' of ' +
+                                 ${#temporals.day(book.train.leave)}"></a><br>
+                <p class="card-text"
+                   th:text=" 'Arrive on: ' + ${#temporals.hour(book.train.arrive)}
+                                + ':' + ${#temporals.minute(book.train.arrive)} + ' on ' + ${#temporals.monthName(book.train.arrive)} + ' of ' +
+                                 ${#temporals.day(book.train.arrive)}"></p>
+
+                <hr>
+                <a th:href="@{'/stay/view/' + ${book.train.id}+''}" class="btn btn-info btn-block">View this Listing</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

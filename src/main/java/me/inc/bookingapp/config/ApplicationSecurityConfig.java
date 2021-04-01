@@ -33,7 +33,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 authorizeRequests().
                 requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
                 antMatchers("/", "/account/login", "/account/registration", "/account/submit/**").permitAll().
-                antMatchers("/stay/**").permitAll().
+                antMatchers("/stay/**", "/train/**").permitAll().
                 antMatchers("/admin/**").hasAnyRole("ADMIN").
                 antMatchers("/**").authenticated().
                 and().

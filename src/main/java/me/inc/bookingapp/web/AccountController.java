@@ -6,6 +6,7 @@ import me.inc.bookingapp.model.entity.enums.AccountType;
 import me.inc.bookingapp.model.service.AccountServiceModel;
 import me.inc.bookingapp.model.view.AccountViewModel;
 import me.inc.bookingapp.service.AccountService;
+import me.inc.bookingapp.service.BookingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,18 +25,17 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService accountService;
+    private final BookingService bookingService;
     private final ModelMapper modelMapper;
 
-    public AccountController(AccountService accountService, ModelMapper modelMapper) {
+    public AccountController(AccountService accountService, BookingService bookingService, ModelMapper modelMapper) {
         this.accountService = accountService;
+        this.bookingService = bookingService;
         this.modelMapper = modelMapper;
     }
 
 
-    @GetMapping("/registration")
-    public ModelAndView registerView() {
-        return new ModelAndView("/account/register");
-    }
+
 
     @GetMapping("/listings")
     public ModelAndView accountListings(Principal principal) {
@@ -46,10 +46,18 @@ public class AccountController {
         return mav;
     }
 
-    @GetMapping("/bookings")
-    public ModelAndView accountBookings(Principal principal) {
-        ModelAndView mav = new ModelAndView("account/account-bookings");
-        mav.addObject("bookings", accountService.getBookings(principal.getName()));
+    @GetMapping("/bookings/stay")
+    public ModelAndView accountStayBookings(Principal principal) {
+        ModelAndView mav = new ModelAndView("/account/stay-bookings");
+        mav.addObject("bookings", bookingService.getAllStayBookingsByUsername(principal.getName()));
+
+        return mav;
+    }
+
+    @GetMapping("/bookings/trains")
+    public ModelAndView accountTrainBookings(Principal principal) {
+        ModelAndView mav = new ModelAndView("/account/train-bookings");
+        mav.addObject("bookings", bookingService.getAllTrainBookingsByUsername(principal.getName()));
 
         return mav;
     }
@@ -90,7 +98,9 @@ public class AccountController {
     }
 
     @GetMapping("/login")
-    public String accountLogin() {
+    public String accountLogin(Model model) {
+        if (!model.containsAttribute("bad_credentials"))
+            model.addAttribute("bad_credentials", false);
         return "login";
     }
 
@@ -104,25 +114,48 @@ public class AccountController {
         return modelAndView;
     }
 
+    @GetMapping("/registration")
+    public ModelAndView registerView(Model model) {
+        ModelAndView mav = new ModelAndView("/account/register");
+        if (!model.containsAttribute("accountRegistration")) {
+            mav.addObject("accountRegistration", new AccountRegistrationBinding());
+        }
+
+        return mav;
+    }
+
     @PostMapping("/registration")
-    public String accountRegister(AccountRegistrationBinding account,
-                                  BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public ModelAndView accountRegister(@Valid AccountRegistrationBinding accountRegistration,
+                                BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        ModelAndView mav = new ModelAndView();
 
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("accountRegistration", accountRegistration);
+            redirectAttributes
+                    .addFlashAttribute("org.springframework.validation.BindingResult.accountRegistration",
+                            bindingResult);
 
-        if (!this.accountService.usernameAvailability(account.getUsername())) {
+            mav.setViewName("redirect:/account/registration");
+            return mav;
+        }
+
+        if (!this.accountService.usernameAvailability(accountRegistration.getUsername())) {
             redirectAttributes.addFlashAttribute("usernameExist", true);
 
-            if (!this.accountService.emailAvailability(account.getEmail())) {
+            if (!this.accountService.emailAvailability(accountRegistration.getEmail())) {
                 redirectAttributes.addFlashAttribute("emailExist", true);
             }
 
-            redirectAttributes.addFlashAttribute("account", account);
-            return "redirect:/account/registration";
+            redirectAttributes.addFlashAttribute("account", accountRegistration);
+            mav.setViewName("redirect:/account/registration");
+            return mav;
 
         }
 
-        this.accountService.registerAccount(modelMapper.map(account, AccountServiceModel.class));
-        return "redirect:/";
+        this.accountService.registerAccount(modelMapper.map(accountRegistration, AccountServiceModel.class));
+        redirectAttributes.addFlashAttribute("successfulRegistration", true);
+        mav.setViewName("redirect:/");
+        return mav;
     }
 
 
@@ -136,6 +169,7 @@ public class AccountController {
     @PostMapping("/login-error")
     public ModelAndView failedLogin(@ModelAttribute("email") String email, RedirectAttributes redirectAttributes) {
         ModelAndView modelAndView = new ModelAndView();
+
         redirectAttributes.addFlashAttribute("bad_credentials", true);
         redirectAttributes.addFlashAttribute("email", email);
 
@@ -147,11 +181,6 @@ public class AccountController {
     @ModelAttribute("types")
     public List<AccountType> accTypes() {
         return List.of(AccountType.PERSONAL, AccountType.BUSINESS);
-    }
-
-    @ModelAttribute("accountRegistration")
-    public AccountRegistrationBinding account() {
-        return new AccountRegistrationBinding();
     }
 
     public AccountEditBinding accountEditBinding(String username) {

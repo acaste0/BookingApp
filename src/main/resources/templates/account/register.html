@@ -2,26 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="~{fragments/head}"/>
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-    </script>
 </head>
 <body>
 <th:block th:include="~{fragments/nav}"/>
@@ -52,10 +32,14 @@
                     </div>
                     <input th:field="*{username}" type="text" class="form-control" id="username" placeholder="Username"
                            aria-describedby="inputGroupPrepend" required>
-                    <span class="text-danger form-text text-sm" th:if="${usernameExist}">
+
+
+                </div>
+                <span class="text-danger form-text text-sm" th:if="${usernameExist}">
                             Account with that username is already registered
                         </span>
-                </div>
+                <small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger">
+                </small>
             </div>
 
             <div class="col-md-4 mb-3">
@@ -64,12 +48,15 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text bi bi-envelope" id="inputGroupPrepend2"></span>
                     </div>
-                    <input th:field="*{email}" type="text" class="form-control" id="email" placeholder="Email"
+                    <input th:field="*{email}" type="email" class="form-control" id="email" placeholder="Email"
                            aria-describedby="inputGroupPrepend2" required>
-                    <span class="text-danger form-text text-sm" th:if="${emailExist}">
+
+                </div>
+                <span class="text-danger form-text text-sm" th:if="${emailExist}">
                             Account with that email is already registered
                         </span>
-                </div>
+                <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger">
+                </small>
             </div>
 
 
@@ -82,9 +69,8 @@
                 <input th:field="*{password}" type="password" class="form-control" id="password"
                        placeholder="Enter password"
                        required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
+                <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger">
+                </small>
             </div>
 
             <div class="col-md-4 mb-3">
@@ -104,9 +90,8 @@
                 <input th:field="*{firstName}" type="text" class="form-control" id="firstName" placeholder="First name"
                        value="Mark"
                        required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
+                <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger">
+                </small>
             </div>
 
             <div class="col-md-4 mb-3">
@@ -114,9 +99,8 @@
                 <input th:field="*{lastName}" type="text" class="form-control" id="lastName" placeholder="Last name"
                        value="Otto"
                        required>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
+                <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger">
+                </small>
             </div>
 
         </div>
@@ -129,6 +113,7 @@
                     <label class="form-check-label" for="invalidCheck">
                         Agree to terms and conditions
                     </label>
+
                     <div class="invalid-feedback">
                         You must agree before submitting.
                     </div>

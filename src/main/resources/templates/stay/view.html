@@ -16,12 +16,6 @@
 
 
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    </ol>
-
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <img class="d-block w-50 m-auto"
@@ -51,9 +45,10 @@
                 <hr>
                 <div class="text-center">
                     <h5 class="card-title" th:text="'' + *{country} + ', ' + *{city}"></h5>
+                    <h6 class="card-title" th:text="'Address: ' + *{address}"></h6>
                     <a class="card-text" th:text="'Type - '+  *{stayType.getName()}"></a><br>
-                    <a class="card-text" th:text="'Available Rooms: '+  *{availabilityLeft}"></a><br>
-                    <a class="card-text" th:text="'Price per night: '+  *{pricePerNight}"></a><br>
+                    <a class="card-text" th:text="'Available Rooms: '+  *{availabilityLeft}"></a><br><br>
+                    <a class="card-text font-weight-bold" th:text="'Price per night: '+  *{pricePerNight}"></a><br>
 
                     <a class="card-text float-right"
                        th:text="${#dates.format(stayListing.createdOn, 'dd-MMM-yyyy HH:mm')}"></a><br>
@@ -85,6 +80,12 @@
                                 th:text="*{stayProperties.hasParking} ? '✔ Parking' : '✖ Parking'"></li>
                             <li class="list-group-item"
                                 th:text="*{stayProperties.hasCityView} ? '✔ City View' : '✖ City View'"></li>
+                        </ul>
+                        <ul class="list-group col-auto">
+                            <li class="list-group-item"
+                                th:text="*{stayProperties.allInclusive} ? '✔ All Inclusive' : '✖ All Inclusive'"></li>
+                            <li class="list-group-item"
+                                th:text="*{stayProperties.hasElevator} ? '✔ Elevator' : '✖ Elevator'"></li>
                         </ul>
                     </div>
                 </div>

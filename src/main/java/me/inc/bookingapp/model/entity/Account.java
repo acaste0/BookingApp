@@ -2,13 +2,9 @@ package me.inc.bookingapp.model.entity;
 
 
 import me.inc.bookingapp.model.entity.base.BaseEntity;
-import me.inc.bookingapp.model.entity.base.BaseListing;
 import me.inc.bookingapp.model.entity.enums.AccountType;
-import me.inc.bookingapp.model.entity.enums.Role;
-import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,17 +15,17 @@ public class Account extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<AccountRole> accountRoles = new ArrayList<>();
     @Enumerated(EnumType.STRING)
-    @Column(name = "account_type")
+    @Column(name = "account_type", nullable = false)
     private AccountType accountType;
-    @Column
+    @Column(nullable = false)
     private String username;
-    @Column
+    @Column(nullable = false)
     private String email;
-    @Column
+    @Column(nullable = false)
     private String password;
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column
     private String address;
@@ -39,11 +35,15 @@ public class Account extends BaseEntity {
     private String phone;
     @Column(name = "zip_code")
     private String zipCode;
-    @OneToMany(mappedBy = "addedFrom")
+
+    @OneToMany(mappedBy = "addedFrom", cascade = CascadeType.ALL)
     private List<StayListing> stayListings;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<BookStay> stayBookings;
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<TrainBook> trainBookings;
 
 
     public Account() {
@@ -163,6 +163,15 @@ public class Account extends BaseEntity {
 
     public Account setStayBookings(List<BookStay> stayBookings) {
         this.stayBookings = stayBookings;
+        return this;
+    }
+
+    public List<TrainBook> getTrainBookings() {
+        return trainBookings;
+    }
+
+    public Account setTrainBookings(List<TrainBook> trainBookings) {
+        this.trainBookings = trainBookings;
         return this;
     }
 }

@@ -23,17 +23,24 @@
         <div class="card m-2">
             <h5 class="card-header text-center" th:text="*{st.listingTitle}"></h5>
             <div class="card-body">
-                <img class="float-left mr-3" height="100" th:src="*{st.pictures.get(0).pictureUrl}">
-                <h5 class="card-title" th:text="'' + *{st.country} + ', ' + *{st.city}"></h5>
-                <a class="card-text" th:text="'Type - '+  *{st.stayType.getName()}"></a><br>
-                <a class="card-text" th:text="'Available Rooms: '+  *{st.availabilityLeft}"></a><br>
-                <a class="card-text" th:text="'Price per night: '+  *{st.pricePerNight} + 'lv.'"></a><br>
-                <a class="card-text" th:text="'Pictures added: '+  *{st.pictures.size()}"></a><br>
+                <div class="col-auto">
+                    <img class="mr-3 float-left" height="300" th:src="*{st.pictures.get(0).pictureUrl}">
+                </div>
+                <div class="col-auto">
+                    <h5 class="card-title" th:text="'' + *{st.country} + ', ' + *{st.city}"></h5>
+                    <h6 class="card-text" th:text="'Adress: ' + *{st.address} "></h6>
+
+                    <a class="card-text" th:text="'Type - '+  *{st.stayType.getName()}"></a><br>
+                    <a class="card-text" th:text="'Available Rooms: '+  *{st.availabilityLeft}"></a><br>
+
+                    <a class="card-text" th:text="'Price per night: '+  *{st.pricePerNight} + 'lv.'"></a><br>
+                    <a class="card-text" th:text="'Pictures added: '+  *{st.pictures.size()}"></a><br>
+                </div><br><br><br><br><br><br>
                 <a class="card-text float-right"
                    th:text="'Added on ' + ${#dates.format(st.createdOn, 'dd-MMM-yyyy HH:mm')}"></a>
                 <br>
-                <hr>
-                <div class="text-center">
+                <br>
+                <div class="col-auto text-center">
                     <h6 class="font-weight-bold">Stay Properties</h6>
                     <div class="row justify-content-center">
                         <ul class="list-group col-auto">
@@ -60,6 +67,12 @@
                             <li class="list-group-item"
                                 th:text="*{st.stayProperties.hasCityView} ? '✔ City View' : '✖ City View'"></li>
                         </ul>
+                        <ul class="list-group col-auto">
+                            <li class="list-group-item"
+                                th:text="*{st.stayProperties.allInclusive} ? '✔ All Inclusive' : '✖ All Inclusive'"></li>
+                            <li class="list-group-item"
+                                th:text="*{st.stayProperties.hasElevator} ? '✔ Elevator' : '✖ Elevator'"></li>
+                        </ul>
                     </div>
                 </div>
                 <hr>
@@ -69,7 +82,8 @@
                     <span class="bg-gray-300" th:text="*{st.description}"></span>
                 </div>
                 <hr>
-                <a th:href="@{'/listing/stay/edit/' + *{st.id}+''}" class="btn btn-outline-info btn-block">Click to edit</a>
+                <a th:href="@{'/listing/stay/edit/' + *{st.id}+''}" class="btn btn-outline-info btn-block">Click to
+                    edit</a>
             </div>
         </div>
     </div>

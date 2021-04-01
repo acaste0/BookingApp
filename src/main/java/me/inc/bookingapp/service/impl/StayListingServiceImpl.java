@@ -128,6 +128,7 @@ public class StayListingServiceImpl implements StayListingService {
         listing.setStayProperties(updateListingProperties(listing.getStayProperties(), binding));
         listing.setListingTitle(binding.getListingTitle());
         listing.setStayType(binding.getStayType());
+        listing.setCountry(binding.getCountry());
         listing.setCity(binding.getCity());
         listing.setAddress(binding.getAddress());
         listing.setAvailabilityLeft(binding.getAvailabilityLeft());
@@ -167,6 +168,8 @@ public class StayListingServiceImpl implements StayListingService {
         listing.setHasRestaurant(stayPropertiesBinding.isHasRestaurant());
         listing.setHasTV(stayPropertiesBinding.isHasTV());
         listing.setHasWifi(stayPropertiesBinding.isHasWifi());
+        listing.setHasParking(stayPropertiesBinding.isHasParking());
+        listing.setHasFreeBreakfast(stayPropertiesBinding.isHasFreeBreakfast());
         return listing;
     }
 

@@ -11,9 +11,11 @@ public abstract class BaseListing extends BaseEntity {
 
     @Column(name = "listing_title", unique = true)
     private String listingTitle;
+
     @ManyToOne
     @JoinColumn(name = "added_from")
     private Account addedFrom;
+
     @Column(name = "is_available")
     private boolean isAvailable;
 

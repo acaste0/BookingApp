@@ -1,12 +1,15 @@
 package me.inc.bookingapp.service;
 
 import me.inc.bookingapp.model.entity.BookStay;
-import org.springframework.web.multipart.MultipartFile;
+import me.inc.bookingapp.model.entity.TrainBook;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.List;
 
 public interface BookingService {
-    void bookStay(BookStay bookStay, String listingId, String accountUsername);
+    void bookStay(BookStay stayBook, String listingId, String accountUsername);
+    void bookTrain(TrainBook trainBook, String listingId, String accountUsername);
+
+    List<TrainBook> getAllTrainBookingsByUsername(String username);
+    List<BookStay> getAllStayBookingsByUsername(String username);
 
 }

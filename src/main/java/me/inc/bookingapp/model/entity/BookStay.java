@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "stay_books")
+@Table(name = "stay_bookings")
 public class BookStay extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)

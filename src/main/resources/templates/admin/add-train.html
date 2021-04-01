@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="~{fragments/head}"/>
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"/>
+<h1 class="text-lg-center mb-5 font-weight-bold">Add Train</h1>
+<div class="container">
+    <div th:if="${success}" class="alert alert-success text-center">
+        <strong>Success!</strong> You have added new Train Listing!
+    </div>
+    <form class="needs-validation" novalidate method="POST"
+          th:action="@{/admin/train/add}" th:object="${trainBinding}">
+
+        <div class="form-row justify-content-center">
+            <div class="col-md-4 mb-3">
+
+                <label for="lTitle">Listing Title</label>
+
+                <div class="input-group">
+                    <input th:field="*{listingTitle}" type="text" class="form-control" id="lTitle"
+                           placeholder="Enter listing title"
+                           aria-describedby="inputGroupPrepend" required>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3 justify-content-center">
+                <label for="locationCountry">Location Country</label>
+                <div class="input-group">
+                    <select th:field="*{country}" type="text"
+                            class="form-control"
+                            id="locationCountry"
+                            aria-describedby="inputGroupPrepend" required>
+                        <option th:each="c : ${allCountries}"
+                                th:value="${c}" th:text="${c}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col-md-4 mb-3 justify-content-center">
+                <label for="from">From</label>
+
+                <div class="input-group">
+
+                    <input th:field="*{from}" type="text" class="form-control" id="from"
+                           placeholder="Enter leave location"
+                           aria-describedby="inputGroupPrepend" required>
+
+                </div>
+                <small th:if="${#fields.hasErrors('from')}" th:errors="*{from}" class="text-danger">
+                </small>
+            </div>
+
+            <div class="col-md-4 mb-3 justify-content-center">
+                <label for="to">To</label>
+
+                <div class="input-group">
+
+                    <input th:field="*{to}" type="text" class="form-control" id="to"
+                           placeholder="Enter arriving destination"
+                           aria-describedby="inputGroupPrepend" required>
+
+                </div>
+                <small th:if="${#fields.hasErrors('to')}" th:errors="*{to}" class="text-danger">
+                </small>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="col-md-4 mb-3 justify-content-center">
+                <label for="leave">Leaves in</label>
+
+                <div class="input-group">
+
+                    <input th:field="*{leave}" type="datetime-local" class="form-control" id="leave"
+                           aria-describedby="inputGroupPrepend" required>
+                </div>
+                <small th:if="${#fields.hasErrors('leave')}" th:errors="*{leave}" class="text-danger">
+                </small>
+            </div>
+            <div class="col-md-4 mb-3 justify-content-center">
+                <label for="arr">Arrive in</label>
+
+                <div class="input-group">
+
+                    <input th:field="*{arrive}" type="datetime-local" class="form-control" id="arr"
+                           aria-describedby="inputGroupPrepend" required>
+                </div>
+                <small th:if="${#fields.hasErrors('arrive')}" th:errors="*{arrive}" class="text-danger">
+                </small>
+            </div>
+        </div>
+
+        <div class="form-row justify-content-center">
+            <div class="col-md-4 mb-3 justify-content-center">
+                <label for="price">Ticket Price</label>
+                <div class="input-group">
+                    <input th:field="*{ticketPrice}" type="number" step=".01" class="form-control" id="price"
+                           aria-describedby="inputGroupPrepend" placeholder="10.50" required>
+                </div>
+                <small th:if="${#fields.hasErrors('ticketPrice')}" th:errors="*{ticketPrice}" class="text-danger">
+                </small>
+            </div>
+
+            <div class="col-md-4 mb-3 justify-content-center">
+                <label for="repeat">Repeat after train arrive</label>
+                <div class="input-group form-control m-auto">
+                    <input th:field="*{repeat}" type="checkbox" class="form-control" id="repeat"
+                           aria-describedby="inputGroupPrepend" required>
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <hr>
+
+        <div class="text-center mt-3">
+            <button class="btn btn-primary" type="submit">Add Train</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

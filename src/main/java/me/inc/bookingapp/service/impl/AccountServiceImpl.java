@@ -30,15 +30,14 @@ public class AccountServiceImpl implements AccountService {
 
     private final AppAccountService appAccountService;
     private final AccountRoleRepository accountRoleRepository;
-    private final BookStayRepository bookStayRepository;
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
-    public AccountServiceImpl(AppAccountService appAccountService, AccountRoleRepository accountRoleRepository, BookStayRepository bookStayRepository, AccountRepository accountRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+    public AccountServiceImpl(AppAccountService appAccountService, AccountRoleRepository accountRoleRepository,
+                              AccountRepository accountRepository, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
         this.appAccountService = appAccountService;
         this.accountRoleRepository = accountRoleRepository;
-        this.bookStayRepository = bookStayRepository;
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
         this.modelMapper = modelMapper;
@@ -123,11 +122,6 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new UsernameNotFoundException("Account not found")), AccountServiceModel.class);
     }
 
-    @Override
-    public List<BookStay> getBookings(String accountUsername) {
-        return accountRepository.getAccountByUsername(accountUsername).getStayBookings();
-    }
-
 
     private void loadAndSave(Account acc) {
         UserDetails userDetails = appAccountService.loadUserByUsername(acc.getEmail());
@@ -136,6 +130,7 @@ public class AccountServiceImpl implements AccountService {
                 new UsernamePasswordAuthenticationToken(userDetails, acc.getPassword(), userDetails.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
     }
 
 
