@@ -23,10 +23,6 @@ public class LogAspect {
     @Pointcut("execution(* me.inc.bookingapp.web.StayController.createListingConfirm(..))")
     public void createListingPointcut(){};
 
-    @Pointcut("within(me.inc.bookingapp.web..*)")
-    public void webPointcut(){};
-
-
     @Pointcut("execution(* me.inc.bookingapp.web.AdminController.addRole(..))")
     public void addRolePointcut(){};
 
@@ -34,12 +30,6 @@ public class LogAspect {
     @Pointcut("execution(* me.inc.bookingapp.web.AdminController.removeRole(..))")
     public void removeRolePointcut(){};
 
-    @After("webPointcut()")
-    public void createWebLog(JoinPoint joinPoint){
-        String action = joinPoint.getSignature().getName();
-
-        logService.createWebLog(action);
-    }
 
     @After("removeRolePointcut()")
     public void createRoleChangeLog1(JoinPoint joinPoint){

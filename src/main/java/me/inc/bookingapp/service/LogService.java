@@ -13,7 +13,4 @@ public interface LogService {
     List<ListingLogView> findAllListingLogs();
     List<AdminLogView> findAllAdminLogs();
 
-    void createWebLog(String action);
-
-    List<GeneralLogView> findAllGeneralLogs();
 }

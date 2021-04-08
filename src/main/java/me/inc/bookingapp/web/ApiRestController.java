@@ -2,7 +2,6 @@ package me.inc.bookingapp.web;
 
 import me.inc.bookingapp.model.binding.ServiceResponse;
 import me.inc.bookingapp.model.entity.Account;
-import me.inc.bookingapp.model.entity.GeneralLog;
 import me.inc.bookingapp.model.view.AdminLogView;
 import me.inc.bookingapp.model.view.GeneralLogView;
 import me.inc.bookingapp.model.view.ListingLogView;
@@ -47,12 +46,6 @@ public class ApiRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("logs/general")
-    public ResponseEntity<Object> getAllListingLogs() {
-        ServiceResponse<List<GeneralLogView>> response = new ServiceResponse<>("success",
-                logService.findAllGeneralLogs());
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
     @GetMapping("admin/all-users")
     public List<Account> allUsers() {

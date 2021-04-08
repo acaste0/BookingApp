@@ -116,7 +116,7 @@ public class StayController {
                     addFlashAttribute("org.springframework.validation.BindingResult.stayBinding",
                             bindingResult);
 
-            mav.setViewName("redirect:/stay/create");
+            mav.setViewName("redirect:/listing/stay/create");
             return mav;
         }
 
@@ -124,7 +124,7 @@ public class StayController {
             redirectAttributes.addFlashAttribute("stayBinding", stayBinding);
             redirectAttributes.addFlashAttribute("titleExist", true);
 
-            mav.setViewName("redirect:/stay/create");
+            mav.setViewName("redirect:/listing/stay/create");
             return mav;
         }
 

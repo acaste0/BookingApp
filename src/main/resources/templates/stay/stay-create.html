@@ -2,6 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:include="~{fragments/head}"/>
+
+    <script th:src="@{/js/imageUploadPreview.js}"></script>
     <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function () {
@@ -241,14 +243,12 @@
             <div class="col-md-4 mb-3">
                 <div class="input-group">
 <!--                    <input th:field="*{pictures[__${itemStat.index}__].pictureUrl}" type="file"-->
-                    <input th:field="*{pictures}" type="file"
-                           placeholder="Upload images" class="form-control" multiple="multiple">
+                    <input th:field="*{pictures}" type="file" accept="image/*"
+                           placeholder="Upload images" class="form-control" multiple="multiple"
+                           onchange="loadFile(event)" id="gallery-photo-add">
                 </div>
+                <div class="gallery"></div>
 
-<!--                <div class="input-group">-->
-<!--                    <input th:field="*{pictures[__${itemStat.index}__].pictureUrl}" type="text"-->
-<!--                           placeholder="URL for image" class="form-control">-->
-<!--                </div>-->
             </div>
         </div>
 

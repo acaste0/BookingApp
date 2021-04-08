@@ -2,6 +2,7 @@ package me.inc.bookingapp.service.impl;
 
 import com.cloudinary.Cloudinary;
 import me.inc.bookingapp.service.CloudService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

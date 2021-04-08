@@ -27,7 +27,7 @@ public class StayListing extends BaseListing {
     @Column
     private String address;
 
-    @Column(length = 1000)
+    @Column(length = 5000)
     private String description;
 
     @Column(name = "price_per_night")

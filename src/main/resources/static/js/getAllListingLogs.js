@@ -32,7 +32,7 @@ $(document).ready(
                         $.each(result.data,
                             function (i, log) {
                                 res += "<tr>"
-                                    + "<td>" + log.username + "</td>"
+                                    + "<td>" + log.account + "</td>"
                                     + "<td>" + log.action + "</td>"
                                     + "<td>" + log.listingTitle + "</td>"
                                     + "<td>" + log.createdOn + "</td>"

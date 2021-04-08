@@ -12,7 +12,7 @@ public class Picture extends BaseEntity {
     @Column(name = "picture_url")
     private String pictureUrl;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private StayListing listing;
 
     public Picture() {

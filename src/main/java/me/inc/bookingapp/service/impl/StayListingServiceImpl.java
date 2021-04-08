@@ -118,7 +118,7 @@ public class StayListingServiceImpl implements StayListingService {
 
     @Override
     public StayListing findEntityByTitle(String title) {
-        return this.stayListingRepository.findByListingTitle(title).orElseThrow(NullPointerException::new);
+        return this.stayListingRepository.findByListingTitle(title).orElse(null);
     }
 
     @Override
