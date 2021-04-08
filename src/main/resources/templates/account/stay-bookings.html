@@ -17,6 +17,7 @@
         <strong>0!</strong> You have successfully booked stay! <a th:text="${name}"></a>
     </div>
     <hr>
+    <h4 th:if="${bookings.isEmpty()}" class="alert-secondary p-3 rounded text-center">You don't have anything booked!</h4>
     <div th:each="book : ${bookings}">
         <div class="card m-2">
             <div class="card-body">

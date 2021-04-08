@@ -12,6 +12,7 @@
 
 <div class="container">
     <h1 class="text-center mb-3 font-weight-bold text-capitalize">My Train Bookings</h1>
+    <h4 th:if="${bookings.isEmpty()}" class="alert-secondary p-3 rounded text-center">You don't have anything booked!</h4>
 
     <div th:if="${success}" class="alert alert-success">
         <strong>Congratulations!</strong> You have successfully booked train! <a th:text="${name}"></a>

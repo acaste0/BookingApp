@@ -40,12 +40,16 @@ public class StayListing extends BaseListing {
     @Column(name = "availability_left")
     private int availabilityLeft;
 
+    @Column(name = "contact_number")
+    private int contactNumber;
+
     @OneToMany(mappedBy = "listing", cascade = CascadeType.ALL)
     private List<Picture> pictures;
 
 
     @OneToOne(mappedBy = "listing", cascade = CascadeType.ALL)
     private StayProperties stayProperties;
+
 
 
     public ListingType getListingType() {
@@ -136,6 +140,15 @@ public class StayListing extends BaseListing {
 
     public StayListing setStayProperties(StayProperties stayProperties) {
         this.stayProperties = stayProperties;
+        return this;
+    }
+
+    public int getContactNumber() {
+        return contactNumber;
+    }
+
+    public StayListing setContactNumber(int contactNumber) {
+        this.contactNumber = contactNumber;
         return this;
     }
 }

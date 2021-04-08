@@ -131,6 +131,22 @@
                        class="text-danger" th:errors="*{pricePerNight}"></small>
             </div>
 
+
+
+        </div>
+
+        <div class="form-row justify-content-center">
+
+            <div class="col-md-4 mb-3">
+                <label for="number">Contact Number</label>
+                <div class="input-group">
+                    <input th:field="*{contactNumber}" type="number" class="form-control"
+                           id="number" placeholder="08989265235"
+                           aria-describedby="inputGroupPrepend2" required>
+                </div>
+                <small th:if="${#fields.hasErrors('contactNumber')}"
+                       class="text-danger" th:errors="*{contactNumber}"></small>
+            </div>
         </div>
 
         <div class="form-row justify-content-center">

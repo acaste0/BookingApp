@@ -19,6 +19,7 @@ public class StayListingServiceModel extends BaseListing {
     private String city;
     private String address;
     private BigDecimal pricePerNight;
+    private int contactNumber;
     private String description;
     private int availabilityLeft;
     private MultipartFile[] pictures;
@@ -115,6 +116,15 @@ public class StayListingServiceModel extends BaseListing {
 
     public StayListingServiceModel setPictures(MultipartFile[] pictures) {
         this.pictures = pictures;
+        return this;
+    }
+
+    public int getContactNumber() {
+        return contactNumber;
+    }
+
+    public StayListingServiceModel setContactNumber(int contactNumber) {
+        this.contactNumber = contactNumber;
         return this;
     }
 }

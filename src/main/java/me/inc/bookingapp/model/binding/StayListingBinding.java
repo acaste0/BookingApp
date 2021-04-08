@@ -19,6 +19,8 @@ public class StayListingBinding {
     private int availabilityLeft;
     private MultipartFile[] pictures;
     private StayProperties stayProperties;
+    @Min(value = 6,message = "Enter a valid phone number")
+    private int contactNumber;
     private String country;
     @Length(min = 3, max = 30, message = "City name must be at least 3 characters")
     private String city;
@@ -128,6 +130,15 @@ public class StayListingBinding {
 
     public StayListingBinding setPictures(MultipartFile[] pictures) {
         this.pictures = pictures;
+        return this;
+    }
+
+    public int getContactNumber() {
+        return contactNumber;
+    }
+
+    public StayListingBinding setContactNumber(int contactNumber) {
+        this.contactNumber = contactNumber;
         return this;
     }
 }

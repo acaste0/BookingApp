@@ -18,6 +18,9 @@ public class BookStay extends BaseEntity {
     @Column
     private int guests;
 
+    @Column
+    private String requirements;
+
     @Column(name = "check_in")
     private LocalDate checkIn;
 
@@ -66,6 +69,15 @@ public class BookStay extends BaseEntity {
 
     public BookStay setCheckOut(LocalDate checkOut) {
         this.checkOut = checkOut;
+        return this;
+    }
+
+    public String getRequirements() {
+        return requirements;
+    }
+
+    public BookStay setRequirements(String requirements) {
+        this.requirements = requirements;
         return this;
     }
 }

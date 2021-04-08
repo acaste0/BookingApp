@@ -23,6 +23,7 @@ public class StayListingView {
     private Instant createdOn;
     private String addedFrom;
     private BigDecimal pricePerNight;
+    private int contactNumber;
     private ListingType listingType = ListingType.STAY;
     private StayType stayType;
     private int availabilityLeft;
@@ -162,6 +163,15 @@ public class StayListingView {
 
     public StayListingView setFirstPicture(String firstPicture) {
         this.firstPicture = firstPicture;
+        return this;
+    }
+
+    public int getContactNumber() {
+        return contactNumber;
+    }
+
+    public StayListingView setContactNumber(int contactNumber) {
+        this.contactNumber = contactNumber;
         return this;
     }
 }
