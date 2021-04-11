@@ -1,11 +1,14 @@
 package me.inc.bookingapp.web;
 
 import me.inc.bookingapp.model.binding.StayListingBinding;
+import me.inc.bookingapp.model.entity.BookStay;
 import me.inc.bookingapp.model.entity.enums.ListingType;
 import me.inc.bookingapp.model.entity.enums.StayType;
 import me.inc.bookingapp.model.entity.properties.StayProperties;
 import me.inc.bookingapp.model.service.StayListingServiceModel;
+import me.inc.bookingapp.model.view.AccountViewModel;
 import me.inc.bookingapp.model.view.StayListingView;
+import me.inc.bookingapp.service.BookingService;
 import me.inc.bookingapp.service.StayListingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
@@ -29,11 +32,13 @@ import java.util.stream.Collectors;
 public class StayController {
 
     private final StayListingService stayListingService;
+    private final BookingService bookingService;
     private final ModelMapper modelMapper;
 
 
-    public StayController(StayListingService stayListingService, ModelMapper modelMapper) {
+    public StayController(StayListingService stayListingService, BookingService bookingService, ModelMapper modelMapper) {
         this.stayListingService = stayListingService;
+        this.bookingService = bookingService;
         this.modelMapper = modelMapper;
     }
 
@@ -63,12 +68,29 @@ public class StayController {
         return modelAndView;
     }
 
+    @GetMapping("/bookings/{id}")
+    public ModelAndView viewBookings(@PathVariable String id,
+                                    Principal principal) {
+        ModelAndView mav = new ModelAndView();
+        StayListingView stay = stayListingService.getByViewId(id);
+        List<BookStay> accountsBooked = bookingService.getAllAccountsBookedStayListing(id);
+        if (!stay.getAddedFrom().equals(principal.getName())) {
+            mav.setViewName("redirect:/account/listings");
+            return mav;
+        }
+
+        mav.addObject("listing", stay);
+        mav.addObject("reservations", accountsBooked);
+        mav.setViewName("stay/who-booked");
+        return mav;
+    }
 
     @GetMapping("/edit/{id}")
     public ModelAndView editListing(@PathVariable String id,
                                     Principal principal) {
         ModelAndView mav = new ModelAndView();
         StayListingView stay = stayListingService.getByViewId(id);
+
         if (!stay.getAddedFrom().equals(principal.getName())) {
             mav.setViewName("redirect:/account/listings");
             return mav;
@@ -78,7 +100,6 @@ public class StayController {
         mav.setViewName("stay/edit");
         return mav;
     }
-
 
     @PostMapping("/edit/{id}")
     public ModelAndView editListingConfirm(StayListingBinding listing,

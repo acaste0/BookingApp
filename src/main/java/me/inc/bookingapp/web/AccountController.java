@@ -34,9 +34,6 @@ public class AccountController {
         this.modelMapper = modelMapper;
     }
 
-
-
-
     @GetMapping("/listings")
     public ModelAndView accountListings(Principal principal) {
         ModelAndView mav = new ModelAndView();

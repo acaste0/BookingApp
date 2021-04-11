@@ -49,7 +49,6 @@
                     <a class="card-text" th:text="'Type - '+  *{stayType.getName()}"></a><br>
                     <a class="card-text" th:text="'Available Rooms: '+  *{availabilityLeft}"></a><br><br>
                     <a class="card-text font-weight-bold" th:text="'Price per night: '+  *{pricePerNight}"></a><br>
-                    <a class="card-text font-weight-bold" th:text="'Contact Number: '+  *{contactNumber}"></a><br>
 
                     <a class="card-text float-right"
                        th:text="${#dates.format(stayListing.createdOn, 'dd-MMM-yyyy HH:mm')}"></a><br>

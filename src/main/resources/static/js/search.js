@@ -65,6 +65,7 @@ searchByMinPrice.addEventListener('keyup', (e) => {
 
     listings(filteredListings);
 })
+
 searchByMaxPrice.addEventListener('keyup', (e) => {
     let filteredListings = allListings.filter(l => {
         return l.pricePerNight <= searchByMaxPrice.value;

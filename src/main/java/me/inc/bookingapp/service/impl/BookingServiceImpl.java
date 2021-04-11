@@ -2,6 +2,7 @@ package me.inc.bookingapp.service.impl;
 
 import me.inc.bookingapp.model.entity.BookStay;
 import me.inc.bookingapp.model.entity.TrainBook;
+import me.inc.bookingapp.model.view.AccountViewModel;
 import me.inc.bookingapp.repository.BookStayRepository;
 import me.inc.bookingapp.repository.TrainBookRepository;
 import me.inc.bookingapp.service.AccountService;
@@ -12,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -57,4 +59,11 @@ public class BookingServiceImpl implements BookingService {
     public List<BookStay> getAllStayBookingsByUsername(String username) {
         return this.accountService.getAccountEntity(username).getStayBookings();
     }
+
+    @Override
+    public List<BookStay> getAllAccountsBookedStayListing(String listingId) {
+        return bookStayRepository.findAllByListingId(listingId);
+
+    }
+
 }

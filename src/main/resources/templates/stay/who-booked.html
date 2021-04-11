@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <th:block th:include="~{fragments/head}"></th:block>
+
+</head>
+<body>
+<th:block th:include="~{fragments/nav}"></th:block>
+
+
+<div class="container">
+    <a class="text-center mb-3 font-weight-bold h1 justify-content-center">Reservations for </a>
+    <a class="text-center mb-3 font-weight-bold h1 justify-content-center" th:text="${listing.listingTitle}"></a>
+
+    <hr>
+    <h4 th:if="${reservations.isEmpty()}" class="alert-secondary p-3 rounded text-center">There is no bookings on this
+        listing</h4>
+
+    <div class="row gutters-sm">
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-column align-items-center text-center">
+                        <img th:src="${listing.pictures.get(0).pictureUrl}" width="150">
+                        <div class="mt-1">
+                            <div class="card-body text-center">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <h6 class="mb-0 font-weight-bold">Listing</h6>
+                                        <span th:text="${listing.listingTitle}"></span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm">
+                                        <h6 class="mb-0 font-weight-bold">Location</h6>
+                                        <span th:text="${listing.country} + ' - ' + ${listing.city}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div th:each="reserv : ${reservations}">
+                    <div class="card-title text-center m-3 font-weight-bold h5">
+                        <a th:text="'User: ' +  *{reserv.getAccount().username}"></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Full Name</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <span th:text="*{reserv.getAccount().firstName + ' '  + reserv.getAccount().lastName}"></span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <span th:text="*{reserv.getAccount().email}"></span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Phone</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <span th:text="*{reserv.getAccount().phone}"></span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Check In</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <span th:text="*{reserv.checkIn}"></span>
+                            </div>
+
+
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Check Out</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <span th:text="*{reserv.checkOut}"></span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Guests</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <span th:text="*{reserv.guests}"></span>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Requirements</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <span th:text="*{reserv.requirements}"></span>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

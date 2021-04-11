@@ -21,16 +21,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/listing")
 public class ListingController {
 
-    private final StayController stayController;
-    private final ModelMapper modelMapper;
-
-    public ListingController(StayController stayController, ModelMapper modelMapper) {
-        this.stayController = stayController;
-        this.modelMapper = modelMapper;
-    }
-
-
-
     @ModelAttribute("listingSetup")
     public ListingStartBinding listingSetup() {
         return new ListingStartBinding();

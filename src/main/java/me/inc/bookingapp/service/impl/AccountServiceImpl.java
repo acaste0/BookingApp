@@ -61,12 +61,12 @@ public class AccountServiceImpl implements AccountService {
 
 
     private List<AccountRole> setAccountRoles() {
-
         AccountRole admin = accountRoleRepository.getByRole(Role.ADMIN);
         AccountRole user = accountRoleRepository.getByRole(Role.USER);
         if (this.accountRepository.count() == 0) {
             return List.of(admin, user);
         }
+
         return List.of(user);
     }
 
@@ -132,6 +132,8 @@ public class AccountServiceImpl implements AccountService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
     }
+
+
 
 
 }
